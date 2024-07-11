@@ -1,0 +1,53 @@
+"use client"
+
+import { cn } from "@/lib/utils"
+import Image from "next/image"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { ComponentProps, ReactNode } from "react"
+import SearchBar from "@/components/ToursSearchBar";
+import Login from "@/components/Login";
+import Menu from "@/components/Menu";
+
+/* export function Nav({ children }: { children: ReactNode }) {
+  return ( */
+export function Nav() {
+	return (
+
+
+		// <nav className="bg-rose-50 fixed inset-y-0 left-0 w-50 flex-col justify-center px-4 h-full">
+		//   {children}
+		// </nav>
+		<nav className="bg-orange-300 flex justify-between items-center px-4 w-full">
+			<div>
+				<Link href="/">
+					<Image src="/logo.png" width={70} height={40} alt='logo' />
+				</Link>
+
+			</div>
+			<div>
+				<SearchBar />
+			</div>
+			<div className="flex space-x-1 mr-1">
+				<Login />
+				<Menu />
+			</div>
+		</nav>
+	)
+}
+
+export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {
+	const pathname = usePathname()
+	return (
+		<div >
+
+			<Link
+				{...props}
+				className={cn(
+					" p-4 flex flex-col space-y-4 ",
+					pathname === props.href && "text-foreground rounded-md"
+				)}
+			/>
+		</div>
+	)
+}
