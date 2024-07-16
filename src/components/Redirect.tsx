@@ -11,12 +11,12 @@ export default function Redirect() {
 			<div className='flex gap-3'>
 				<Button
 					className='bg-orange-300 hover:bg-bg-orange-300 text-black'
-					onClick={() => signIn('google')}>
+					onClick={() => signIn('google', { callbackUrl: '/' })}>
 					Sign in with Google
 				</Button>
 				<Button
 					className='bg-orange-300 hover:bg-bg-orange-300 text-black'
-					onClick={() => signIn('github')}>
+					onClick={() => signIn('github', { callbackUrl: '/' })}>
 					Sign in with Github
 				</Button>
 			</div>

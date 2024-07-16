@@ -6,8 +6,8 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ComponentProps, ReactNode } from "react"
 import SearchBar from "@/components/ToursSearchBar";
-import Login from "@/components/Login";
-import Menu from "@/components/Menu";
+import LoginDropdown from "@/components/LoginDropdown";
+import MenuDropdown from "@/components/MenuDropdown";
 
 /* export function Nav({ children }: { children: ReactNode }) {
   return ( */
@@ -29,8 +29,8 @@ export function Nav() {
 				<SearchBar />
 			</div>
 			<div className="flex space-x-1 mr-1">
-				<Login />
-				<Menu />
+				<LoginDropdown />
+				<MenuDropdown />
 			</div>
 		</nav>
 	)

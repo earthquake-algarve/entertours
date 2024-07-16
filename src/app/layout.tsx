@@ -4,6 +4,7 @@ import "./globals.css"
 import { cn } from "@/lib/utils"
 import { Nav } from '@/components/Nav';
 import FooterSection from "@/components/sections/FooterSection";
+import Provider from "@/components/Provider";
 
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
@@ -19,9 +20,11 @@ export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
-}>) {
+}>)
+
+{
 	return (
-		<html lang="en">
+		<html lang='en'>
 			{/* <body
         className={cn(
           "bg-background min-h-screen font-sans antialiased overflow-y-hidden overflow-x-hidden flex",
@@ -30,15 +33,17 @@ export default function RootLayout({
       > */}
 			<body
 				className={cn(
-					"bg-background min-h-screen font-sans antialiased  overflow-x-hidden",
-					inter.variable
-				)}
-			>
-				<Nav />				
+					'bg-background min-h-screen font-sans antialiased  overflow-x-hidden',
+					inter.variable,
+				)}>
+				<Provider>
+					<Nav />
+				</Provider>
 				{/* <div className='container my-6'>{children}</div> */}
 				<div className=''>{children}</div>
-				<FooterSection/>
+
+				<FooterSection />
 			</body>
 		</html>
-	)
+	);
 }

@@ -9,7 +9,7 @@ import {
 import { AlignJustify } from "lucide-react"
 import Link from "next/link"
 
-export default function Menu() {
+export default function MenuDropdown() {
   return (
       <DropdownMenu>
           <DropdownMenuTrigger><AlignJustify /></DropdownMenuTrigger>
