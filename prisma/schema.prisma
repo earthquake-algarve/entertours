@@ -15,7 +15,7 @@ datasource db {
 
 model User {
   id            String    @id @default(uuid())
-  name          String
+  name          String?
   email         String    @unique
   emailVerified DateTime?
   accounts      Account[]
@@ -31,11 +31,11 @@ model Account {
   provider          String
   providerAccountId String
   refreshToken     String?
-  accessToken      String?
-  expiresAt        Int?
-  tokenType        String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
   scope             String?
-  idToken          String?
+  id_token          String?
   sessionState     String?
 
   createdAt DateTime @default(now())

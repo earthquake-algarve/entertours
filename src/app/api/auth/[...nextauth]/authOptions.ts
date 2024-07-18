@@ -1,33 +1,55 @@
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
-import NextAuth from 'next-auth';
-import { debug } from 'console';
+// import NextAuth from 'next-auth';
+// import { debug } from 'console';
+import EmailProvider from 'next-auth/providers/email';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export const authOptions = {
 	providers: [
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID as string,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+			allowDangerousEmailAccountLinking: true,
 		}),
 		GithubProvider({
 			clientId: process.env.GITHUB_CLIENT_ID as string,
 			clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+			allowDangerousEmailAccountLinking: true,
+		}),
+		EmailProvider({
+			server: {
+				host: process.env.EMAIL_SERVER_HOST,
+				port: Number(process.env.EMAIL_SERVER_PORT),
+				auth: {
+					user: process.env.EMAIL_SERVER_USER,
+					pass: process.env.EMAIL_SERVER_PASSWORD,
+				},
+			},
+			from: process.env.EMAIL_FROM,
 		}),
 		// ...add more providers here
 	],
+	adapter: PrismaAdapter(prisma),
 	secret: process.env.NEXTAUTH_SECRET,
 	callbacks: {
-        async signIn() {
-            try {
-                // Custom logic here if needed
-                return true;
-            } catch (error) {
-                console.error('Error in signIn callback:', error);
-                return false;
-            }
-        },
+		async signIn() {
+			try {
+				// Custom logic here if needed
+				return true;
+			} catch (error) {
+				console.error('Error in signIn callback:', error);
+				return false;
+			}
+		},
 	},
-	debug: true,
+	theme: {
+		logo: '/logo.png',
+	},
+	// debug: true,
 };
 
 export default authOptions;

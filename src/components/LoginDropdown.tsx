@@ -6,7 +6,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogIn, LogOut, User } from 'lucide-react';
+import { LogIn, User } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import LogoutButton from './LogoutButton';
@@ -22,7 +22,12 @@ export default function LoginDropdown() {
 			</DropdownMenuTrigger>
 			{session ? (
 				<DropdownMenuContent>
-					<DropdownMenuLabel>Welcome, {session.user?.name}</DropdownMenuLabel>
+					<DropdownMenuLabel>
+						Welcome,{' '}
+						{session.user?.name
+							? session.user?.name
+							: session.user?.email}
+					</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem asChild>
 						<Link href='/' className='flex'>
@@ -31,7 +36,7 @@ export default function LoginDropdown() {
 						</Link>
 					</DropdownMenuItem>
 					<DropdownMenuItem asChild>
-						<LogoutButton/>
+						<LogoutButton />
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			) : (
@@ -39,7 +44,10 @@ export default function LoginDropdown() {
 					<DropdownMenuLabel>Welcome</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem asChild>
-						<Link href='/login' className='flex'>
+						<Link
+							// href='/api/auth/signin'
+							href='/login'
+							className='flex'>
 							<LogIn className='mr-2 h-4 w-4' />
 							<p>Login</p>
 						</Link>
