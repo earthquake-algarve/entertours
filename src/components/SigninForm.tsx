@@ -27,6 +27,7 @@ export default function SigninForm() {
 
 	function formSubmit(values: z.infer<typeof emailSchema>) {
 		console.log(values);
+        signIn('email', {email: values.email, callbackUrl: '/' });
 	}
 
 	function googleSignin() {
@@ -37,7 +38,7 @@ export default function SigninForm() {
 	}
 
 	return (
-		<div className='space-y-8 flex flex-col items-center' >
+		<div className='space-y-8 flex flex-col items-center'>
 			<div className='flex gap-3'>
 				<BrandButton onClick={googleSignin}>
 					Sign in with Google
@@ -46,7 +47,7 @@ export default function SigninForm() {
 					Sign in with Github
 				</BrandButton>
 			</div>
-            <div>or</div>
+			<div>or</div>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(formSubmit)}
@@ -67,11 +68,9 @@ export default function SigninForm() {
 							</FormItem>
 						)}
 					/>
-					<Button
-						className='bg-orange-300 hover:bg-bg-orange-300 text-black'
-						type='submit'>
+					<BrandButton type='submit'>
 						Sign in with Email
-					</Button>
+					</BrandButton>
 				</form>
 			</Form>
 		</div>
