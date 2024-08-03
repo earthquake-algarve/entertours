@@ -6,7 +6,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogIn, User } from 'lucide-react';
+import { LogIn, ShieldCheck, User } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import LogoutButton from './LogoutButton';
@@ -35,6 +35,15 @@ export default function LoginDropdown() {
 							<p>My profile</p>
 						</Link>
 					</DropdownMenuItem>
+					{session?.user?.role && (
+						<DropdownMenuItem asChild>
+							<Link href='/admin' className='flex'>
+								<ShieldCheck className='mr-2 h-4 w-4' />
+								<p>Admin</p>
+							</Link>
+						</DropdownMenuItem>
+					)}
+
 					<DropdownMenuItem asChild>
 						<LogoutButton />
 					</DropdownMenuItem>

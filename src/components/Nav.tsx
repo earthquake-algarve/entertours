@@ -11,7 +11,7 @@ import MenuDropdown from "@/components/MenuDropdown";
 
 /* export function Nav({ children }: { children: ReactNode }) {
   return ( */
-export function Nav() {
+export function CustomerNav() {
 	return (
 
 
@@ -35,19 +35,38 @@ export function Nav() {
 		</nav>
 	)
 }
-
-export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {
-	const pathname = usePathname()
+export function NavLink(props: Omit<ComponentProps<typeof Link>, 'className'>) {
+	const pathname = usePathname();
 	return (
-		<div >
+		<Link
+			{...props}
+			className={cn(
+				'p-4 hover:bg-secondary hover:text-secondary-foreground focus-visible:bg-secondary focus-visible:text-secondary-foreground',
+				pathname === props.href && 'bg-background text-foreground',
+			)}
+		/>
+	);
+}
+// export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {
+// 	const pathname = usePathname()
+// 	return (
+// 		<div >
 
-			<Link
-				{...props}
-				className={cn(
-					" p-4 flex flex-col space-y-4 ",
-					pathname === props.href && "text-foreground rounded-md"
-				)}
-			/>
-		</div>
-	)
+// 			<Link
+// 				{...props}
+// 				className={cn(
+// 					" p-4 flex flex-col space-y-4 ",
+// 					pathname === props.href && "text-foreground rounded-md"
+// 				)}
+// 			/>
+// 		</div>
+// 	)
+// }
+
+export function AdminNav({ children }: { children: ReactNode }) {
+	return (
+		<nav className='bg-primary text-primary-foreground flex justify-center px-4'>
+			{children}
+		</nav>
+	);
 }

@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -18,10 +18,14 @@ model User {
   name          String?
   email         String    @unique
   emailVerified DateTime?
-  accounts      Account[]
-  sessions      Session[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  image         String?
+
+  role     UserRole  @default(USER)
+  accounts Account[]
+  sessions Session[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Account {
@@ -30,13 +34,13 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refreshToken     String?
-  access_token      String?
+  refreshToken      String?
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
-  sessionState     String?
+  id_token          String? @db.Text
+  sessionState      String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -44,6 +48,11 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }
 
 model Session {

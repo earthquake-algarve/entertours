@@ -5,8 +5,6 @@ import ReviewsSection from '@/components/sections/ReviewsSection';
 import CitiesSection from '@/components/sections/CitiesSection';
 
 export default async function Home() {
-
-		
 	return (
 		<>
 			<BannerSection />
