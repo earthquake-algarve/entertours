@@ -9,15 +9,8 @@ import SearchBar from "@/components/ToursSearchBar";
 import LoginDropdown from "@/components/LoginDropdown";
 import MenuDropdown from "@/components/MenuDropdown";
 
-/* export function Nav({ children }: { children: ReactNode }) {
-  return ( */
 export function CustomerNav() {
 	return (
-
-
-		// <nav className="bg-rose-50 fixed inset-y-0 left-0 w-50 flex-col justify-center px-4 h-full">
-		//   {children}
-		// </nav>
 		<nav className="bg-orange-300 flex justify-between items-center px-4 w-full">
 			<div>
 				<Link href="/">
@@ -35,37 +28,23 @@ export function CustomerNav() {
 		</nav>
 	)
 }
+
 export function NavLink(props: Omit<ComponentProps<typeof Link>, 'className'>) {
 	const pathname = usePathname();
 	return (
 		<Link
 			{...props}
 			className={cn(
-				'p-4 hover:bg-secondary hover:text-secondary-foreground focus-visible:bg-secondary focus-visible:text-secondary-foreground',
+				'p-4 hover:bg-secondary focus-visible:bg-secondary rounded-lg',
 				pathname === props.href && 'bg-background text-foreground',
 			)}
 		/>
 	);
 }
-// export function NavLink(props: Omit<ComponentProps<typeof Link>, "className">) {
-// 	const pathname = usePathname()
-// 	return (
-// 		<div >
-
-// 			<Link
-// 				{...props}
-// 				className={cn(
-// 					" p-4 flex flex-col space-y-4 ",
-// 					pathname === props.href && "text-foreground rounded-md"
-// 				)}
-// 			/>
-// 		</div>
-// 	)
-// }
 
 export function AdminNav({ children }: { children: ReactNode }) {
 	return (
-		<nav className='bg-primary text-primary-foreground flex justify-center px-4'>
+		<nav className='bg-orange-300 text-secondary-foreground flex flex-col justify-center px-4'>
 			{children}
 		</nav>
 	);
