@@ -25,7 +25,7 @@ export default function FooterSection() {
 					<Link href='' className='w-fit'>
 						Terms and Conditions
 					</Link>
-					<Link href='' className='w-fit'>
+					<Link href='/company/register' className='w-fit'>
 						Register your company
 					</Link>
 				</CardContent>
