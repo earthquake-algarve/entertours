@@ -1,27 +1,23 @@
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import { cn } from "@/lib/utils"
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { cn } from '@/lib/utils';
 import { CustomerNav } from '@/components/Nav';
-import FooterSection from "@/components/sections/FooterSection";
-import Provider from "@/components/Provider";
+import FooterSection from '@/components/sections/FooterSection';
+import Provider from '@/components/Provider';
 
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-	title: "EnterTours",
-	description: "",
-}
-
+	title: 'EnterTours',
+	description: '',
+};
 
 export default function RootLayout({
 	children,
 }: Readonly<{
-	children: React.ReactNode
-}>)
-
-{
+	children: React.ReactNode;
+}>) {
 	return (
 		<html lang='en'>
 			<body
@@ -31,8 +27,8 @@ export default function RootLayout({
 				)}>
 				<Provider>
 					<CustomerNav />
+					<div className=''>{children}</div>
 				</Provider>
-				<div className=''>{children}</div>
 
 				<FooterSection />
 			</body>

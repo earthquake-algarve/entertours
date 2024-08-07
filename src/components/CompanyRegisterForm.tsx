@@ -13,17 +13,31 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
-import { companyRegisterSchema } from '@/app/validation/schema';
+import { registerCompanySchema } from '@/app/validation/schema';
 import { BrandButton } from './BrandButton';
+import { useSession } from 'next-auth/react';
+import { registerCompany } from '@/app/company/_actions/register';
 
 export default function CompanyRegisterForm() {
-    	const form = useForm<z.infer<typeof companyRegisterSchema>>({
-			resolver: zodResolver(companyRegisterSchema),
+	const form = useForm<z.infer<typeof registerCompanySchema>>({
+		resolver: zodResolver(registerCompanySchema),
+	});
+
+	// const { data: session } = useSession();
+	// console.log(session)
+
+	async function formSubmit(values: z.infer<typeof registerCompanySchema>) {
+		const formData = new FormData();
+		// console.log(values);
+
+		(Object.keys(values) as Array<keyof typeof values>).forEach((key) => {
+			formData.append(key, values[key]);
 		});
 
-		function formSubmit(values: z.infer<typeof companyRegisterSchema>) {
-			console.log(values);
-		}
+		// formData.append("userId", session?.user?.id);
+
+		await registerCompany(formData)
+	}
 	return (
 		<div className='p-8 space-y-8 flex flex-col items-center w-96'>
 			<Form {...form}>
@@ -80,15 +94,28 @@ export default function CompanyRegisterForm() {
 					/>
 					<FormField
 						control={form.control}
+						name='address'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Address</FormLabel>
+								<FormControl>
+									<Input
+										placeholder='Estrada da Meia Praia, 8B'
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
 						name='nif'
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Fiscal Number (NIF)</FormLabel>
 								<FormControl>
-									<Input
-										placeholder='540234589'
-										{...field}
-									/>
+									<Input placeholder='540234589' {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
