@@ -24,6 +24,24 @@ export async function createCompany(formData: FormData){
 				any
 			>;
 
+			console.log(data)
+			
+			// const user = await db.company.findFirst({
+			// 	where: { id: data.userId },
+			// 	select: {
+			// 		id: true,
+			// 		// name: true,
+			// 	},
+			// });
+
+			// if (!user) {
+			// 	throw new Error('User not found');
+			// }
+
+			// const userId = user.id;
+			// const userName = user.name;
+
+
 			const company = await db.company.create({
 				data: {
 					name: data.name,
@@ -31,7 +49,7 @@ export async function createCompany(formData: FormData){
 					phone: data.phone,
 					address: data.address,
 					nif: data.nif,
-					// userId: formData.userId,
+					userId: data.userId,
 				},
 			});
 

@@ -23,7 +23,7 @@ export default function CompanyRegisterForm() {
 		resolver: zodResolver(registerCompanySchema),
 	});
 
-	// const { data: session } = useSession();
+	const { data: session } = useSession();
 	// console.log(session)
 
 	async function formSubmit(values: z.infer<typeof registerCompanySchema>) {
@@ -34,7 +34,10 @@ export default function CompanyRegisterForm() {
 			formData.append(key, values[key]);
 		});
 
-		// formData.append("userId", session?.user?.id);
+		if(session){
+
+			formData.append("userId", session?.user?.id);
+		}
 
 		await registerCompany(formData)
 	}

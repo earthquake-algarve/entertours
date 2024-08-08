@@ -23,7 +23,7 @@ model User {
   role     UserRole  @default(USER)
   accounts Account[]
   sessions Session[]
-  // company  Company?
+  company  Company?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -83,6 +83,6 @@ model Company {
   phone   String?
   address String?
 
-  // userId String @unique
-  // user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
