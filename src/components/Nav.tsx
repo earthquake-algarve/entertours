@@ -42,7 +42,7 @@ export function NavLink(props: Omit<ComponentProps<typeof Link>, 'className'>) {
 	);
 }
 
-export function AdminNav({ children }: { children: ReactNode }) {
+export function SideNav({ children }: { children: ReactNode }) {
 	return (
 		<nav className='bg-orange-300 text-secondary-foreground flex flex-col justify-center px-4'>
 			{children}

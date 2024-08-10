@@ -41,7 +41,7 @@ export default async function CompanyProfile() {
 	//choose one of the UI to use
 	return (
 		<>
-			<div className='container p-16 '>
+			<div className='p-16 '>
 				<PageHeader>Company profile</PageHeader>
 
 				<Card className='w-96 border-none shadow-lg rounded-md'>
