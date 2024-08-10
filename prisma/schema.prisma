@@ -77,11 +77,11 @@ model VerificationToken {
 
 model Company {
   id      String  @id @default(uuid())
-  name    String?
-  email   String  @unique
-  nif     String  @unique
-  phone   String?
-  address String?
+  name    String? @map("Name")
+  email   String  @unique @map("Email")
+  nif     String  @unique @map("NIF")
+  phone   String? @map("Phone")
+  address String? @map("Address")
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
