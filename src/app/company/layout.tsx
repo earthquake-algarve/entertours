@@ -27,13 +27,13 @@ export default async function AdminLayout({
 	return (
 		<aside className='min-h-screen font-sans antialiased overflow-y-hidden overflow-x-hidden flex'>
 			<SideNav>
-				<NavLink href='/company/profile'>My profile</NavLink>
-				<NavLink href='/'>Tours</NavLink>
+				<NavLink href='/company/profile'>Company profile</NavLink>
+				<NavLink href='/company/tours'>Tours</NavLink>
 				<NavLink href='/'>Sales</NavLink>
 				<NavLink href='/'>Finance</NavLink>
 			</SideNav>
 
-			<div>{children}</div>
+			<div className="container">{children}</div>
 		</aside>
 	);
 }

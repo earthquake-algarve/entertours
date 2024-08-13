@@ -86,3 +86,30 @@ model Company {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model Tour {
+  id          String @id @default(uuid())
+  name        String
+  location    String
+  price       Int
+  duration    String
+  description String
+  imagePath   String
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+
+  tours Tour[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
