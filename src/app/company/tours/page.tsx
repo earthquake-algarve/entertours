@@ -20,13 +20,12 @@ const session = await getServerSession(authOptions);
 async function getCompanyTours() {
 	const data = await db.tour.findMany({
 		//falta fazer a relacao entre tour e company na db
-		include:{category: true},
+		include: { category: true },
 		orderBy: { createdAt: 'desc' },
 	});
 
 	return data;
 }
-
 
 export default async function CompanyTours() {
 	if (!session) {
@@ -52,30 +51,14 @@ export default async function CompanyTours() {
 						<Table className=''>
 							<TableHeader>
 								<TableRow>
-									<TableHead className='w-[100px]'>
-										Id
-									</TableHead>
-									<TableHead className='w-[100px]'>
-										Name
-									</TableHead>
-									<TableHead className='w-[100px]'>
-										Price
-									</TableHead>
-									<TableHead className='w-[100px]'>
-										Duration
-									</TableHead>
-									<TableHead className='w-[100px]'>
-										Description
-									</TableHead>
-									<TableHead className='w-[100px]'>
-										Location
-									</TableHead>
-									<TableHead className='w-[100px]'>
-										Category
-									</TableHead>
-									<TableHead className='w-[100px]'>
-										Image
-									</TableHead>
+									<TableHead>Id</TableHead>
+									<TableHead>Name</TableHead>
+									<TableHead>Price</TableHead>
+									<TableHead>Duration</TableHead>
+									<TableHead>Description</TableHead>
+									<TableHead>Location</TableHead>
+									<TableHead>Category</TableHead>
+									<TableHead>Image</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
