@@ -38,12 +38,13 @@ export default async function CompanyTours() {
 		<>
 			<div className='p-16 '>
 				<div className='flex justify-between  '>
-					<PageHeader>Company tours</PageHeader>
-					<Button
-						className='bg-orange-300 hover:bg-orange-300 text-black'
-						asChild>
-						<Link href='/company/tours/new'>Add tour</Link>
-					</Button>
+					<PageHeader
+						buttonChildren={
+							<Link href='/company/tours/new'>Add tour</Link>
+						}
+						buttonAsChild={true}>
+						Company tours
+					</PageHeader>
 				</div>
 
 				<Card className='mt-8 border-none shadow-lg rounded-md'>
