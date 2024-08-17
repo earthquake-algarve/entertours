@@ -1,4 +1,4 @@
-import { AdminNav, NavLink } from '@/components/Nav';
+import { SideNav, NavLink } from '@/components/Nav';
 import authOptions from '../api/auth/[...nextauth]/authOptions';
 import { getServerSession } from 'next-auth';
 import { Button } from '@/components/ui/button';
@@ -26,13 +26,10 @@ export default async function AdminLayout({
 	}
 	return (
 		<aside className='min-h-screen font-sans antialiased overflow-y-hidden overflow-x-hidden flex'>
-			<AdminNav>
+			<SideNav>
 				<NavLink href='/admin'>Dashboard</NavLink>
-				<NavLink href='/admin/products'>Products</NavLink>
-				<NavLink href='/admin/users'>Customers</NavLink>
-				<NavLink href='/admin/orders'>Sales</NavLink>
-				<NavLink href='/admin/myprofile'>My profile</NavLink>
-			</AdminNav>
+				<NavLink href='/admin/users'>Users</NavLink>
+			</SideNav>
 
 			<div className='container my-6'>{children}</div>
 		</aside>
