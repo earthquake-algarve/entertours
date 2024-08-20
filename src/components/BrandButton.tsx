@@ -1,7 +1,10 @@
+'use client'
+
+import { ReactNode } from "react";
 import { Button } from "./ui/button"
 
 type BrandButtonProps = {
-	children: string;
+	children: ReactNode;
 	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 	type?: "button" | "submit" | "reset";
 	disabled?: boolean;
