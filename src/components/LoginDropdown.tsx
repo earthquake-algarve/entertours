@@ -34,23 +34,22 @@ export default function LoginDropdown() {
 							<p>My profile</p>
 						</Link>
 					</DropdownMenuItem>
-					{session?.user?.role && (
-						<>
-							<DropdownMenuItem asChild>
-								<Link href='/admin' className='flex'>
-									<ShieldCheck className='mr-2 h-4 w-4' />
-									<p>Admin</p>
-								</Link>
-							</DropdownMenuItem>
-							<DropdownMenuItem asChild>
-								<Link href='/company/register' className='flex'>
-									<Building className='mr-2 h-4 w-4' />
-									<p>Company</p>
-								</Link>
-							</DropdownMenuItem>
-						</>
+					{session?.user?.role === 'ADMIN' ? (
+						<DropdownMenuItem asChild>
+							<Link href='/admin' className='flex'>
+								<ShieldCheck className='mr-2 h-4 w-4' />
+								<p>Admin</p>
+							</Link>
+						</DropdownMenuItem>
+					) : (
+						''
 					)}
-
+					<DropdownMenuItem asChild>
+						<Link href='/company/register' className='flex'>
+							<Building className='mr-2 h-4 w-4' />
+							<p>Company</p>
+						</Link>
+					</DropdownMenuItem>
 					<DropdownMenuItem asChild>
 						<LogoutButton />
 					</DropdownMenuItem>
