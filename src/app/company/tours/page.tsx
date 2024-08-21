@@ -1,9 +1,7 @@
-import authOptions from '@/app/api/auth/[...nextauth]/authOptions';
 import { PageHeader } from '@/components/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import db from '@/db/db';
-import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import {
 	Table,
@@ -14,8 +12,6 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import Image from 'next/image';
-
-const session = await getServerSession(authOptions);
 
 async function getCompanyTours() {
 	const data = await db.tour.findMany({
@@ -28,9 +24,6 @@ async function getCompanyTours() {
 }
 
 export default async function CompanyTours() {
-	if (!session) {
-		return <span>You are not authorized to see this page</span>;
-	}
 
 	const companyTours = await getCompanyTours();
 

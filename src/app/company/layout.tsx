@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import authOptions from "../api/auth/[...nextauth]/authOptions";
+import NotAuthorized from "@/components/NotAuthorized";
 
 export default async function AdminLayout({
 	children,
@@ -10,18 +11,10 @@ export default async function AdminLayout({
 	children: React.ReactNode;
 }>) {
 	const session = await getServerSession(authOptions);
-	console.log(session);
 
 	if (!session) {
 		return (
-			<div className='container p-4 flex flex-col space-y-6'>
-				<span className='text-3xl'>
-					You are not authorized to view this page.
-				</span>
-				<Button className='bg-orange-300 hover:bg-orange-300 text-black'  asChild>
-					<Link href='/'>Back to Home page</Link>
-				</Button>
-			</div>
+			<NotAuthorized/>
 		);
 	}
 	return (
