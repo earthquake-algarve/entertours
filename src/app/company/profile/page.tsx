@@ -25,9 +25,6 @@ async function getCompanyData() {
 }
 
 export default async function CompanyProfile() {
-	if (!session) {
-		return <span>You are not authorized to see this page</span>;
-	}
 
 	const companyData = await getCompanyData();
 
