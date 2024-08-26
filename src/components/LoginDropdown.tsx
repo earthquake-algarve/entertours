@@ -45,10 +45,17 @@ export default function LoginDropdown() {
 						''
 					)}
 					<DropdownMenuItem asChild>
-						<Link href='/company/register' className='flex'>
-							<Building className='mr-2 h-4 w-4' />
-							<p>Company</p>
-						</Link>
+						{session?.user?.hasCompany ? (
+							<Link href='/company/profile' className='flex'>
+								<Building className='mr-2 h-4 w-4' />
+								<p>My Company</p>
+							</Link>
+						) : (
+							<Link href='/company/register' className='flex'>
+								<Building className='mr-2 h-4 w-4' />
+								<p>Register your company</p>
+							</Link>
+						)}
 					</DropdownMenuItem>
 					<DropdownMenuItem asChild>
 						<LogoutButton />
