@@ -15,6 +15,7 @@ declare module 'next-auth/jwt' {
 		/** OpenID ID Token */
         id: UserId;
 		role?: UserRole;
+		hasCompany?: boolean;
 	}
 }
 
@@ -28,8 +29,9 @@ declare module 'next-auth' {
 		interface Session {
 			user: {
 				/** The user's role. */
-                id: UserId;
+				id: UserId;
 				role?: UserRole;
+				hasCompany?: boolean;
 			} & DefaultSession['user'];
 		}
 }
