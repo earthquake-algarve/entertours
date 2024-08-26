@@ -25,6 +25,8 @@ model User {
   sessions Session[]
   company  Company?
 
+  hasCompany Boolean?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
