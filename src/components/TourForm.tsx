@@ -97,7 +97,7 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 				)}
 			</div>
 			<div className='space-y-2'>
-				<Label htmlFor='duration'>Duration</Label>
+				<Label htmlFor='duration'>Duration in minutes</Label>
 				<Input
 					id='duration'
 					name='duration'

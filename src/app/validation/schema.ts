@@ -37,7 +37,7 @@ export const tourSchema = z.object({
 		.string()
 		.min(3, { message: 'The location must be at least 3 characters' }),
 	price: z.coerce.number().int().min(1),
-	duration: z.string(),
+	duration: z.coerce.number().int().min(1),
 	description: z
 		.string()
 		.min(10, { message: 'The description must be at least 10 characters' }),
