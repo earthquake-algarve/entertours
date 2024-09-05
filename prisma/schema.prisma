@@ -94,7 +94,7 @@ model Tour {
   name        String
   location    String
   price       Int
-  duration    String
+  duration    Int
   description String
   imagePath   String
 
