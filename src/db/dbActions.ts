@@ -90,3 +90,19 @@ export async function createTour(formData: FormData, imagePath: string) {
 		return null;
 	}
 }
+
+export async function getTours() {
+	const tours = await db.tour.findMany();
+
+	return tours;
+}
+
+export async function getTourById(id: string) {
+	const tour = await db.tour.findUnique({
+		where: {
+			id: id,
+		},
+	});
+
+	return tour;
+}
