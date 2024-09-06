@@ -42,15 +42,13 @@ export default function TourDetailsCard({
 				<CardHeader>
 					<CardTitle>{title}</CardTitle>
 				</CardHeader>
-				<CardContent>
-					<div className='flex flex-col gap-6 font-semibold'>
-						<span>Location: {location}</span>
-						<span>Duration: {duration} minutes</span>
-						<span>Price: {formatCurrency(price)} per person</span>
-						<span>Description: {description}</span>
-						<span>Data</span>
-						<span>Horario</span>
-					</div>
+				<CardContent className='flex flex-col gap-6 font-semibold'>
+					<span>Location: {location}</span>
+					<span>Duration: {duration} minutes</span>
+					<span>Price: {formatCurrency(price)} per person</span>
+					<span>Description: {description}</span>
+					<span>Data</span>
+					<span>Horario</span>
 				</CardContent>
 				<CardFooter className=' w-full flex justify-center items-center mt-12'>
 					<BrandButton>
