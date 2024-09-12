@@ -1,30 +1,20 @@
-'use client'
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel"
-import HomeCard from "@/components/HomeCard";
-import Autoplay from "embla-carousel-autoplay"
+import { BrandButton } from '../BrandButton';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import HomeCarousel from '../HomeCarousel';
+import { getTours } from '@/db/dbActions';
+import { Tour } from '@prisma/client';
 
-export default function CarouselSection() {
-    return (
-        <section className="p-16">
-            <Carousel plugins={[
-                Autoplay({
-                    delay: 4000,
-                }),
-            ]}>
-                <CarouselContent>
-                    {Array.from({ length: 6 }, (_, index) => (
-                        <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/5"><HomeCard /></CarouselItem>
-                    ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel>
-        </section>
-    )
+export default async function CarouselSection() {
+	const tours: Tour[] = await getTours();
+	return (
+		<section className='p-16 flex flex-col justify-center items-center space-y-6'>
+			<HomeCarousel tours={tours} />
+			<BrandButton asChild={true}>
+				<Link href='/tours'>
+					All tours <ArrowRight />{' '}
+				</Link>
+			</BrandButton>
+		</section>
+	);
 }
