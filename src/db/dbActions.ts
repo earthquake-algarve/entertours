@@ -64,9 +64,19 @@ export async function getCategories() {
 	const categories = await db.category.findMany();
 	//add a column in db isActive
 
-	console.log(categories);
+	// console.log(categories);
 
 	return categories;
+}
+
+export async function getCategoryById(id: string) {
+	const category = await db.category.findUnique({
+		where: {
+			id: id,
+		},
+	});
+
+	return category;
 }
 
 export async function createTour(formData: FormData, imagePath: string) {
@@ -105,4 +115,11 @@ export async function getTourById(id: string) {
 	});
 
 	return tour;
+}
+
+export async function getAllToursByCategoryId(categoryId: string) {
+	const tours = await db.tour.findMany({
+		where: {categoryId: categoryId},
+	})
+	return tours;
 }
