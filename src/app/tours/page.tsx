@@ -1,6 +1,6 @@
 import HomeCard from '@/components/HomeCard';
 import { PageHeader } from '@/components/PageHeader';
-import { getTours } from '@/db/dbActions';
+import { getTours } from '@/db/tour/tour';
 import Link from 'next/link';
 import { Suspense } from 'react';
 

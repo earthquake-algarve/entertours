@@ -1,6 +1,7 @@
 import HomeCard from '@/components/HomeCard';
 import { PageHeader } from '@/components/PageHeader';
-import { getAllToursByCategoryId, getCategoryById } from '@/db/dbActions';
+import { getCategoryById } from '@/db/category/category';
+import { getAllToursByCategoryId } from '@/db/tour/tour';
 import Link from 'next/link';
 
 export default async function AllToursFromCategory({

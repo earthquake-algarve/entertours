@@ -1,8 +1,8 @@
 'use server';
 
 import { tourSchema } from '@/app/validation/schema';
-import db from '@/db/db';
-import { createTour, getCategories } from '@/db/dbActions';
+import { getCategories } from '@/db/category/category';
+import { createTour } from '@/db/tour/tour';
 import fs from 'fs/promises';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';

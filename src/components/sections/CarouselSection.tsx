@@ -2,8 +2,8 @@ import { BrandButton } from '../BrandButton';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import HomeCarousel from '../HomeCarousel';
-import { getTours } from '@/db/dbActions';
 import { Tour } from '@prisma/client';
+import { getTours } from '@/db/tour/tour';
 
 export default async function CarouselSection() {
 	const tours: Tour[] = await getTours();

@@ -11,7 +11,7 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import getSession from '@/lib/session/session';
-import { getCompanyByUserId } from '@/db/dbActions';
+import { getCompanyByUserId } from '@/db/company/company';
 
 export default async function CompanyProfile() {
 	const session = await getSession();

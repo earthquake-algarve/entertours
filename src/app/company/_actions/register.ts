@@ -1,8 +1,7 @@
 'use server';
 
 import { registerCompanySchema } from '@/app/validation/schema';
-import db from '@/db/db';
-import { createCompany } from '@/db/dbActions';
+import { createCompany } from '@/db/company/company';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 

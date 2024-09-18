@@ -1,6 +1,6 @@
 import { PageHeader } from '@/components/PageHeader';
 import TourDetailsCard from '@/components/TourDetailsCard';
-import { getTourById } from '@/db/dbActions';
+import { getTourById } from '@/db/tour/tour';
 import Link from 'next/link';
 import React from 'react';
 

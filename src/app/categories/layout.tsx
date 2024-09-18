@@ -1,5 +1,5 @@
 import { SideNav, NavLink } from '@/components/Nav';
-import { getCategories } from '@/db/dbActions';
+import { getCategories } from '@/db/category/category';
 
 
 export default async function AdminLayout({

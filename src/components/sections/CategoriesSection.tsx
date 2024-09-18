@@ -5,7 +5,7 @@ import CategoryCard from '../CategoryCard';
 import Link from 'next/link';
 import { OutlineButton } from '../OutlineButton';
 import { ArrowRight } from 'lucide-react';
-import { getCategories } from '@/db/dbActions';
+import { getCategories } from '@/db/category/category';
 
 // const categories = [
 // 	{
