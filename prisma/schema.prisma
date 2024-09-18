@@ -95,7 +95,7 @@ model Tour {
   location    String
   price       Int
   duration    Int
-  description String
+  description String @db.Text
   imagePath   String
 
   category   Category @relation(fields: [categoryId], references: [id])
