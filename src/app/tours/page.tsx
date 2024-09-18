@@ -27,6 +27,7 @@ export default async function AllTours() {
 									location={tour.location}
 									duration={tour.duration}
 									price={tour.price}
+									imagePath={tour.imagePath}
 								/>
 							</Link>
 						);

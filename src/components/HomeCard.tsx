@@ -15,6 +15,7 @@ type HomeCardProps = {
 	location: string | undefined;
 	duration: number | undefined;
 	price: number;
+	imagePath: string
 };
 
 export default function HomeCard({
@@ -22,15 +23,16 @@ export default function HomeCard({
 	location,
 	duration,
 	price,
+	imagePath
 }: HomeCardProps) {
 	return (
 		<Card className='w-fit border-none shadow-lg rounded-md'>
 			<Image
-				src='/banner.png'
+				src={imagePath}
 				alt='card image'
 				width={300}
 				height={230}
-				className='rounded-md'
+				className='rounded-md max-w-72 max-h-56'
 			/>
 			<CardHeader>
 				<CardTitle>{title}</CardTitle>

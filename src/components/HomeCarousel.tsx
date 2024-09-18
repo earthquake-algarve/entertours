@@ -17,6 +17,8 @@ type HomeCarouselProps = {
 }
 
 export default function HomeCarousel({ tours }: HomeCarouselProps) {
+
+	console.log(tours[1])
 	return (
 		<Carousel
 			opts={{
@@ -41,6 +43,7 @@ export default function HomeCarousel({ tours }: HomeCarouselProps) {
 								location={tour.location}
 								duration={tour.duration}
 								price={tour.price}
+								imagePath={tour.imagePath}
 							/>
 						</Link>
 					</CarouselItem>
