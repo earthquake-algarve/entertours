@@ -1,9 +1,6 @@
-import authOptions from '@/app/api/auth/[...nextauth]/authOptions';
 import { PageHeader } from '@/components/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import db from '@/db/db';
-import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import {
 	Table,
@@ -13,20 +10,12 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-
-const session = await getServerSession(authOptions);
-
-async function getCompanyData() {
-	const data = await db.company.findFirst({
-		where: { userId: session?.user.id },
-	});
-
-	return data;
-}
+import getSession from '@/lib/session/session';
+import { getCompanyByUserId } from '@/db/dbActions';
 
 export default async function CompanyProfile() {
-
-	const companyData = await getCompanyData();
+	const session = await getSession();
+	const company = await getCompanyByUserId(session?.user?.id);
 
 	return (
 		<>
@@ -46,21 +35,21 @@ export default async function CompanyProfile() {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								<TableRow key={companyData?.id}>
+								<TableRow key={company?.id}>
 									<TableCell className='font-medium'>
-										{companyData?.name}
+										{company?.name}
 									</TableCell>
 									<TableCell className='font-medium'>
-										{companyData?.email}
+										{company?.email}
 									</TableCell>
 									<TableCell className='font-medium'>
-										{companyData?.nif}
+										{company?.nif}
 									</TableCell>
 									<TableCell className='font-medium'>
-										{companyData?.phone}
+										{company?.phone}
 									</TableCell>
 									<TableCell className='font-medium'>
-										{companyData?.address}
+										{company?.address}
 									</TableCell>
 								</TableRow>
 							</TableBody>
