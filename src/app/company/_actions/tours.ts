@@ -35,6 +35,8 @@ export async function addTour(prevState: unknown, formData : FormData) {
 
 	await createTour({ ...data }, imagePath)
 
+	revalidatePath('/');
+	revalidatePath('/tours');
 	revalidatePath('/company/tours');
 
 	redirect('/company/tours');

@@ -25,7 +25,9 @@ export async function createTour(formData: FormData, imagePath: string) {
 }
 
 export async function getTours() {
-	const tours = await db.tour.findMany();
+	const tours = await db.tour.findMany({
+		orderBy: { createdAt: 'desc' },
+	});
 
 	return tours;
 }
