@@ -12,19 +12,12 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import Image from 'next/image';
+import { getCompanyTours } from '@/db/tour/tour';
 
-async function getCompanyTours() {
-	const data = await db.tour.findMany({
-		//falta fazer a relacao entre tour e company na db
-		include: { category: true },
-		orderBy: { createdAt: 'desc' },
-	});
-
-	return data;
-}
 
 export default async function CompanyTours() {
 
+	//falta fazer a relacao entre tour e company na db
 	const companyTours = await getCompanyTours();
 
 	return (
