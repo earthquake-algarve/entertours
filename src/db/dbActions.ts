@@ -1,5 +1,6 @@
 'use server';
 
+import getSession from '@/lib/session/session';
 import db from './db';
 
 export async function createCompany(formData: FormData) {
@@ -59,6 +60,14 @@ export async function createCompany(formData: FormData) {
 		return null;
 	}
 }
+
+export async function getCompanyByUserId(userId: string | undefined) {
+	const company = await db.company.findUnique({
+		where:{userId: userId}
+	})
+	return company;
+}
+
 
 export async function getCategories() {
 	const categories = await db.category.findMany();
