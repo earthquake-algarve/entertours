@@ -15,7 +15,7 @@ type HomeCardProps = {
 	location: string | undefined;
 	duration: number | undefined;
 	price: number;
-	imagePath: string
+	imagePath: string;
 };
 
 export default function HomeCard({
@@ -23,19 +23,21 @@ export default function HomeCard({
 	location,
 	duration,
 	price,
-	imagePath
+	imagePath,
 }: HomeCardProps) {
 	return (
 		<Card className='w-fit border-none shadow-lg rounded-md'>
-			<Image
-				src={imagePath}
-				alt='card image'
-				width={300}
-				height={230}
-				className='rounded-md max-w-72 max-h-56'
-			/>
+			<div className='w-72 h-56'>
+				<Image
+					src={imagePath}
+					alt='card image'
+					width={300}
+					height={230}
+					className='rounded-md w-full h-full'
+				/>
+			</div>
 			<CardHeader>
-				<CardTitle>{title}</CardTitle>
+				<CardTitle className='text-xl'>{title}</CardTitle>
 			</CardHeader>
 			<CardContent className='flex justify-between'>
 				<div className='flex flex-col'>
@@ -43,7 +45,7 @@ export default function HomeCard({
 					<span className=''>{duration} minutes</span>
 				</div>
 				<div className=''>
-					<span className='font-semibold text-3xl'>
+					<span className='font-semibold text-2xl'>
 						{formatCurrency(price)}
 					</span>
 				</div>
