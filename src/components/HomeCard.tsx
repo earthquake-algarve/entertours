@@ -46,7 +46,7 @@ export default function HomeCard({
 				</div>
 				<div className=''>
 					<span className='font-semibold text-2xl'>
-						{formatCurrency(price)}
+						{formatCurrency(price/100)}
 					</span>
 				</div>
 			</CardContent>
