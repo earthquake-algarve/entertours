@@ -1,8 +1,14 @@
 'use server';
 
+import getSession from '@/lib/session/session';
 import db from '../db';
+import { getCompanyByUserId } from '../company/company';
 
 export async function createTour(formData: FormData, imagePath: string) {
+	
+	const session = await getSession();
+	const company = await getCompanyByUserId(session?.user.id);
+	
 	try {
 		const tour = await db.tour.create({
 			data: {
@@ -13,6 +19,8 @@ export async function createTour(formData: FormData, imagePath: string) {
 				description: formData.description,
 				categoryId: formData.category,
 				imagePath,
+				isActive: true,
+				companyId: company?.id,
 			},
 		});
 
@@ -49,9 +57,11 @@ export async function getAllToursByCategoryId(categoryId: string) {
 	return tours;
 }
 
-export async function getCompanyTours() {
+export async function getToursByCompanyId(companyId: string | undefined) {
 	const tours = await db.tour.findMany({
-		//falta fazer a relacao entre tour e company na db
+		where: {
+			companyId: companyId,
+		},
 		include: { category: true },
 		orderBy: { createdAt: 'desc' },
 	});

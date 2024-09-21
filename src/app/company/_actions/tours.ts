@@ -33,8 +33,11 @@ export async function addTour(prevState: unknown, formData : FormData) {
 		Buffer.from(await data.image.arrayBuffer()) 
 	);
 
-	await createTour({ ...data }, imagePath)
-
+	if ((await createTour({ ...data }, imagePath)) == null){
+		return null
+	} 
+	
+		
 	revalidatePath('/');
 	revalidatePath('/tours');
 	revalidatePath('/company/tours');
