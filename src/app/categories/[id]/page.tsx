@@ -32,6 +32,7 @@ export default async function AllToursFromCategory({
 							location={tour?.location}
 							duration={tour?.duration}
 							price={tour?.price}
+							imagePath={tour?.imagePath}
 						/>
 					</Link>
 				))}
