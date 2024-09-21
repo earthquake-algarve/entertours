@@ -22,9 +22,11 @@ export async function registerCompany(formData: FormData) {
 		return result.error.formErrors.fieldErrors;
 	}
 
-	await createCompany(formData);
-
-	// revalidatePath('/admin/companies');
+	if ((await createCompany(formData)) == null) {
+		return null
+	}
+	revalidatePath('/admin/companies');
+	revalidatePath('company/profile');
 
 	redirect('/company/profile');
 }
