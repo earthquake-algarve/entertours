@@ -63,6 +63,7 @@ export const authOptions:NextAuthOptions = {
 				image: dbUser.image,
 				role: dbUser.role,
 				hasCompany: dbUser.hasCompany,
+				isActive: dbUser.isActive,
 			};
 		},
 		async session({ session, token }) {
@@ -73,6 +74,7 @@ export const authOptions:NextAuthOptions = {
 				session.user.image = token.image as string;
 				session.user.role = token.role;
 				session.user.hasCompany = token.hasCompany;
+				session.user.isActive = token.isActive;
 			}
 			return session;
 		},

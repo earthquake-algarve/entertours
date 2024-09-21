@@ -16,6 +16,7 @@ declare module 'next-auth/jwt' {
         id: UserId;
 		role?: UserRole;
 		hasCompany?: boolean;
+		isActive?: boolean;
 	}
 }
 
@@ -32,6 +33,7 @@ declare module 'next-auth' {
 				id: UserId;
 				role?: UserRole;
 				hasCompany?: boolean;
+				isActive?:boolean;
 			} & DefaultSession['user'];
 		}
 }
