@@ -27,6 +27,7 @@ export default async function TourDetails({
 				duration={tour?.duration}
 				price={tour?.price}
 				description={tour?.description}
+				imagePath={tour?.imagePath}
 			/>
 		</div>
 	);
