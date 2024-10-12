@@ -24,16 +24,29 @@ export async function addTour(prevState: unknown, formData : FormData) {
 
 	const data = result.data;
 
-	await fs.mkdir('public/tour', { recursive: true });
+	const imagePaths: string[] = [];
+	const files = formData.getAll('image') as File[];
 
-	const imagePath = `/tour/${crypto.randomUUID()}-${data.image.name}`;
+	for (const file of files) {
+		const imagePath = `/tour/${data.name}/${file.name}`;
+		await fs.mkdir(`public/tour/${data.name}`, { recursive: true });
+		await fs.writeFile(
+			`public${imagePath}`,
+			Buffer.from(await file.arrayBuffer()),
+		);
+		imagePaths.push(imagePath);
+	}
 
-	await fs.writeFile(
-		`public${imagePath}`,
-		Buffer.from(await data.image.arrayBuffer()) 
-	);
+	// await fs.mkdir('public/tour', { recursive: true });
 
-	if ((await createTour({ ...data }, imagePath)) == null){
+	// const imagePath = `/tour/${crypto.randomUUID()}-${data.image.name}`;
+
+	// await fs.writeFile(
+	// 	`public${imagePath}`,
+	// 	Buffer.from(await data.image.arrayBuffer()) 
+	// );
+
+	if ((await createTour({ ...data }, imagePaths)) == null){
 		return null
 	} 
 	

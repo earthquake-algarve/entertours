@@ -33,20 +33,41 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 	);
 
 	const [categories, setCategories] = useState([]);
+	const [locations, setLocations] = useState([]);
+	const [files, setFiles] = useState([]);
 
+	const formData = new FormData();
+
+	for (let i = 0; i < files.length; i++) {
+		formData.append('image', files[i]);
+	}
+	
 	useEffect( () => {
 		
-	async function getAllCategories() {
-		try {
-			const response = await fetch('/api/categories');
-			const data = await response.json();
-			setCategories(data);
-		} catch (error) {
-			console.error('Failed to fetch categories:', error);
-			setCategories([]);
+		async function getAllCategories() {
+			try {
+				const response = await fetch('/api/categories');
+				const data = await response.json();
+				setCategories(data);
+			} catch (error) {
+				console.error('Failed to fetch categories:', error);
+				setCategories([]);
+			}
 		}
-	}
-	getAllCategories();
+
+		async function getAllLocations() {
+			try {
+				const response = await fetch('/api/locations');
+				const data = await response.json();
+				setLocations(data);
+			} catch (error) {
+				console.error('Failed to fetch locations:', error);
+				setLocations([]);
+			}
+		}
+
+		getAllCategories();
+		getAllLocations();
 	},[])
 
 
@@ -110,12 +131,22 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 			</div>
 			<div className='space-y-2'>
 				<Label htmlFor='location'>Location</Label>
-				<Input
-					id='location'
+				<Select
 					name='location'
-					required
-					value={tour?.location}
-				/>
+					defaultValue={tour?.locationId}
+					required>
+					<SelectTrigger>
+						<SelectValue placeholder='Select a location' />
+					</SelectTrigger>
+
+					<SelectContent>
+						{locations.map((location) => (
+							<SelectItem key={location.id} value={location.id}>
+								{location.name}
+							</SelectItem>
+						))}
+					</SelectContent>
+				</Select>
 				{error?.location && (
 					<div className='text-destructive'>{error.location}</div>
 				)}
@@ -150,6 +181,8 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 					id='image'
 					name='image'
 					required={tour == null}
+					multiple
+					onChange={(e) => {setFiles(e.target.files)}}
 				/>
 				{tour != null && (
 					<Image

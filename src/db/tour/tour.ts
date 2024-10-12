@@ -4,7 +4,7 @@ import getSession from '@/lib/session/session';
 import db from '../db';
 import { getCompanyByUserId } from '../company/company';
 
-export async function createTour(formData: FormData, imagePath: string) {
+export async function createTour(formData: FormData, imagePaths: string[]) {
 	
 	const session = await getSession();
 	const company = await getCompanyByUserId(session?.user.id);
@@ -13,15 +13,21 @@ export async function createTour(formData: FormData, imagePath: string) {
 		const tour = await db.tour.create({
 			data: {
 				name: formData.name,
-				location: formData.location,
+				locationId: formData.location,
 				price: formData.price,
 				duration: formData.duration,
 				description: formData.description,
 				categoryId: formData.category,
-				imagePath,
+				images: {
+					create: imagePaths.map((imagePath) => ({
+						name: imagePath,
+						isActive: true,
+					})),
+				},
 				isActive: true,
 				companyId: company?.id,
 			},
+			include: { images: true },
 		});
 
 		console.log('Tour created successfully!');
@@ -35,6 +41,7 @@ export async function createTour(formData: FormData, imagePath: string) {
 export async function getTours() {
 	const tours = await db.tour.findMany({
 		orderBy: { createdAt: 'desc' },
+		include: { location: true },
 	});
 
 	return tours;
@@ -45,6 +52,7 @@ export async function getTourById(id: string) {
 		where: {
 			id: id,
 		},
+		include: {location: true}
 	});
 
 	return tour;
@@ -62,7 +70,23 @@ export async function getToursByCompanyId(companyId: string | undefined) {
 		where: {
 			companyId: companyId,
 		},
-		include: { category: true },
+		include: { 
+			category: true , 
+			location: true
+
+		},
+		orderBy: { createdAt: 'desc' },
+	});
+
+	return tours;
+}
+
+export async function getAllToursByLocationId(locationId: string | undefined) {
+	const tours = await db.tour.findMany({
+		where: {
+			locationId: locationId,
+		},
+		include: { location: true },
 		orderBy: { createdAt: 'desc' },
 	});
 
