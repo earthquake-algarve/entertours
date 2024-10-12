@@ -31,7 +31,8 @@ export const registerCompanySchema = z.object({
 export const tourSchema = z.object({
 	name: z
 		.string()
-		.min(2, { message: 'The name must be at least 2 characters' }),
+		.min(2, { message: 'The name must be at least 2 characters' })
+		.max(30, { message: 'The name must be at most 30 characters' }),
 	location: z
 		.string()
 		.min(3, { message: 'The location must be at least 3 characters' }),
