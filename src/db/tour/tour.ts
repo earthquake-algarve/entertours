@@ -5,10 +5,9 @@ import db from '../db';
 import { getCompanyByUserId } from '../company/company';
 
 export async function createTour(formData: FormData, imagePaths: string[]) {
-	
 	const session = await getSession();
 	const company = await getCompanyByUserId(session?.user.id);
-	
+
 	try {
 		const tour = await db.tour.create({
 			data: {
@@ -41,7 +40,7 @@ export async function createTour(formData: FormData, imagePaths: string[]) {
 export async function getTours() {
 	const tours = await db.tour.findMany({
 		orderBy: { createdAt: 'desc' },
-		include: { location: true },
+		include: { location: true, images: true },
 	});
 
 	return tours;
@@ -52,7 +51,7 @@ export async function getTourById(id: string) {
 		where: {
 			id: id,
 		},
-		include: {location: true}
+		include: { location: true , images: true },
 	});
 
 	return tour;
@@ -61,6 +60,10 @@ export async function getTourById(id: string) {
 export async function getAllToursByCategoryId(categoryId: string) {
 	const tours = await db.tour.findMany({
 		where: { categoryId: categoryId },
+		include: {
+			location: true,
+			images: true,
+		},
 	});
 	return tours;
 }
@@ -70,10 +73,10 @@ export async function getToursByCompanyId(companyId: string | undefined) {
 		where: {
 			companyId: companyId,
 		},
-		include: { 
-			category: true , 
-			location: true
-
+		include: {
+			category: true,
+			location: true,
+			images: true,
 		},
 		orderBy: { createdAt: 'desc' },
 	});
@@ -86,7 +89,7 @@ export async function getAllToursByLocationId(locationId: string | undefined) {
 		where: {
 			locationId: locationId,
 		},
-		include: { location: true },
+		include: { location: true , images: true },
 		orderBy: { createdAt: 'desc' },
 	});
 
