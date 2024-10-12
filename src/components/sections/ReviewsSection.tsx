@@ -1,9 +1,6 @@
 import { MdOutlineStarPurple500 } from "react-icons/md";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
 import Image from 'next/image'
-import { Button } from "../ui/button";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 export default function ReviewsSection() {
     return (
@@ -68,13 +65,6 @@ export default function ReviewsSection() {
                     </CardFooter>
                 </Card>
             </div>
-
-            <Button asChild className="w-fit bg-white text-black shadow-lg hover:bg-white">
-                <Link href="/reviews">
-                    <span>See all reviews</span>
-                    <ArrowRight/>
-                </Link>
-            </Button>
         </section>
     )
 }
