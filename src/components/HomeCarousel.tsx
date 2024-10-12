@@ -40,7 +40,7 @@ export default function HomeCarousel({ tours }: HomeCarouselProps) {
 							href={`/tours/${tour.id}`}>
 							<HomeCard
 								title={tour.name}
-								location={tour.location}
+								location={tour.location.name}
 								duration={tour.duration}
 								price={tour.price}
 								imagePath={tour.imagePath}
