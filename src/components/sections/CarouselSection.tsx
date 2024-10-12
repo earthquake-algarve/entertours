@@ -6,7 +6,7 @@ import { Tour } from '@prisma/client';
 import { getTours } from '@/db/tour/tour';
 
 export default async function CarouselSection() {
-	const tours: Tour[] = await getTours();
+	const tours = await getTours();
 	return (
 		<section className='p-16 flex flex-col justify-center items-center space-y-6'>
 			<HomeCarousel tours={tours} />
