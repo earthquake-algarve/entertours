@@ -1,24 +1,25 @@
 import Link from 'next/link'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
+import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import Image from 'next/image'
 import { Button } from '../ui/button'
 import { ArrowRight } from 'lucide-react'
+import { getLocations } from '@/db/locations/location'
 
-const cities = ["Lagos" , "Carvoeiro", "Sagres" , "Lisboa"  ]
 
-export default function CitiesSection() {
+export default async function LocationsSection() {
+	const locations = await getLocations()
     return (
 		<section className='p-11 flex flex-col justify-center items-center gap-8'>
 			<div className="grid grid-cols-1 place-items-center gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
-				{cities.map((city, index) =>(
-					<Link href="/" key={index}>
+				{locations.map((location) =>(
+					<Link href={`/locations/${location.id}`} key={location.id}>
 						<Card  className='border-none w-60 flex flex-col justify-center items-center shadow-none' >
 							<CardHeader className="flex flex-col justify-center items-center gap-4 ">
 								<CardTitle >
 									<Image src="/banner.png" alt='reviews' width={250} height={130} className="rounded-full border-4 object-cover " />
 								</CardTitle>
-								<CardDescription className='font-semibold'>{city}</CardDescription>
+								<CardDescription className='font-semibold'>{location.name}</CardDescription>
 							</CardHeader>
 						</Card>
 					</Link>
