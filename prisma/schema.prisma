@@ -25,6 +25,7 @@ model User {
   accounts Account[]
   sessions Session[]
   company  Company?
+  reviews  Review[]
 
   hasCompany Boolean?
 
@@ -33,17 +34,17 @@ model User {
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String   @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
   refreshToken      String?
-  access_token      String? @db.Text
+  access_token      String?  @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?  @db.Text
   sessionState      String?
   isActive          Boolean?
 
@@ -96,18 +97,23 @@ model Company {
 model Tour {
   id          String  @id @default(uuid())
   name        String
-  location    String
   price       Int
   duration    Int
   description String  @db.Text
   isActive    Boolean
-  imagePath   String
 
   company   Company @relation(fields: [companyId], references: [id])
-  companyId String 
+  companyId String
 
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
+
+  location   Location @relation(fields: [locationId], references: [id])
+  locationId String
+
+  reviews Review[]
+
+  images Images[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -119,6 +125,44 @@ model Category {
   isActive Boolean
 
   tours Tour[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Location {
+  id       String  @id @default(uuid())
+  name     String
+  isActive Boolean
+
+  tours Tour[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id       String  @id @default(uuid())
+  name     String
+  isActive Boolean
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  tour   Tour   @relation(fields: [tourId], references: [id])
+  tourId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Images {
+  id       String  @id @default(uuid())
+  name     String
+  isActive Boolean
+
+  tour   Tour   @relation(fields: [tourId], references: [id])
+  tourId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
