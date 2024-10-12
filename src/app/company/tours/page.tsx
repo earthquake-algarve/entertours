@@ -70,7 +70,7 @@ export default async function CompanyTours() {
 												{tour.description}
 											</TableCell>
 											<TableCell className='font-medium'>
-												{tour.location}
+												{tour.location.name}
 											</TableCell>
 											<TableCell className='font-medium'>
 												{tour.category.name}
