@@ -14,6 +14,7 @@ import Image from 'next/image';
 import { getToursByCompanyId } from '@/db/tour/tour';
 import { getCompanyByUserId } from '@/db/company/company';
 import getSession from '@/lib/session/session';
+import React from 'react';
 
 export default async function CompanyTours() {
 	const session = await getSession()
@@ -78,7 +79,7 @@ export default async function CompanyTours() {
 											<TableCell className='font-medium'>
 												<Image
 													alt='tour image'
-													src={tour.imagePath}
+													src={tour.images[0].name}
 													width={44}
 													height={44}
 												/>

@@ -3,6 +3,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { getLocationById } from '@/db/locations/location';
 import { getAllToursByLocationId } from '@/db/tour/tour';
 import Link from 'next/link';
+import React from 'react';
 
 export default async function AllToursFromLocation({
 	params: { id },
@@ -32,7 +33,7 @@ export default async function AllToursFromLocation({
 							location={tour?.location.name}
 							duration={tour?.duration}
 							price={tour?.price}
-							imagePath={tour?.imagePath}
+							imagePath={tour?.images[0].name}
 						/>
 					</Link>
 				))}

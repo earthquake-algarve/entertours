@@ -43,7 +43,7 @@ export default function HomeCarousel({ tours }: HomeCarouselProps) {
 								location={tour.location.name}
 								duration={tour.duration}
 								price={tour.price}
-								imagePath={tour.imagePath}
+								imagePath={tour.images[0].name}
 							/>
 						</Link>
 					</CarouselItem>

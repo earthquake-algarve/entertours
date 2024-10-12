@@ -3,6 +3,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { getCategoryById } from '@/db/category/category';
 import { getAllToursByCategoryId } from '@/db/tour/tour';
 import Link from 'next/link';
+import React from 'react';
 
 export default async function AllToursFromCategory({
 	params: { id },
@@ -29,10 +30,10 @@ export default async function AllToursFromCategory({
 					<Link href={`/tours/${tour?.id}`} key={tour?.id}>
 						<HomeCard
 							title={tour?.name}
-							location={tour?.location}
+							location={tour?.location.name}
 							duration={tour?.duration}
 							price={tour?.price}
-							imagePath={tour?.imagePath}
+							imagePath={tour?.images[0].name}
 						/>
 					</Link>
 				))}
