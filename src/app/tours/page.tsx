@@ -24,7 +24,7 @@ export default async function AllTours() {
 							<Link key={tour.id} href={`tours/${tour.id}`}>
 								<HomeCard
 									title={tour.name}
-									location={tour.location}
+									location={tour.location.name}
 									duration={tour.duration}
 									price={tour.price}
 									imagePath={tour.imagePath}
@@ -34,17 +34,6 @@ export default async function AllTours() {
 					})}
 				</div>
 			</Suspense>
-
-			{/* {Array.from({ length: 24 }, (_, index) => (
-					<Link key={index} href={`tours/${id}`}>
-						<HomeCard
-							title='Titulo tour'
-							location='Lagos'
-							duration={120}
-							price={40}
-						/>
-					</Link>
-				))} */}
 		</div>
 	);
 }

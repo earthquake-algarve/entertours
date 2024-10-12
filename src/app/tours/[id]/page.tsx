@@ -23,7 +23,7 @@ export default async function TourDetails({
 			<TourDetailsCard
 				id={tour?.id}
 				title={tour?.name}
-				location={tour?.location}
+				location={tour?.location.name}
 				duration={tour?.duration}
 				price={tour?.price}
 				description={tour?.description}
