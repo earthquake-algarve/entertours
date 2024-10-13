@@ -3,10 +3,11 @@
 import db from '../db';
 
 export async function getCategories() {
-	const categories = await db.category.findMany();
-	//add a column in db isActive
-
-	// console.log(categories);
+	const categories = await db.category.findMany({
+		where: {
+			isActive: true,
+		},
+	});
 
 	return categories;
 }
@@ -15,8 +16,23 @@ export async function getCategoryById(id: string) {
 	const category = await db.category.findUnique({
 		where: {
 			id: id,
+			isActive: true,
 		},
 	});
 
 	return category;
+}
+
+export async function getHowManyToursByCategory() {
+	const categories = await db.category.findMany({
+		select: {
+			id: true,
+			name: true,
+			_count: { select: { tours: true } },
+		},
+		where: {
+			isActive: true,
+		},
+	});
+	return categories;
 }

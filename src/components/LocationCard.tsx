@@ -1,17 +1,23 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import React from 'react'
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
 import Image from 'next/image';
 
-type CategoryCardProps = {
-	title: string;
+type LocationCardProps = {
+	location: string | undefined;
 	numberOfTours: number;
 	imagePath: string;
 };
 
-export default function CategoryCard({
-	title,
+export default function LocationCard({
+	location,
 	numberOfTours,
 	imagePath,
-}: CategoryCardProps) {
+}: LocationCardProps) {
 	return (
 		<Card className='w-fit border-none shadow-lg rounded-md'>
 			<div className='w-72 h-56'>
@@ -24,13 +30,11 @@ export default function CategoryCard({
 				/>
 			</div>
 			<CardHeader>
-				<CardTitle className='text-xl'>{title}</CardTitle>
+				<CardTitle className='text-xl'>{location}</CardTitle>
 			</CardHeader>
 			<CardContent className='flex justify-between'>
 				<div className='flex flex-col'>
-					<span className=''>
-						{numberOfTours} {numberOfTours > 1 ? 'tours' : 'tour'}
-					</span>
+					<span className=''>{numberOfTours} {numberOfTours > 1 ? 'tours': 'tour'}</span>
 				</div>
 			</CardContent>
 		</Card>

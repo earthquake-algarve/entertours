@@ -18,7 +18,7 @@ export default function MenuDropdown() {
               <DropdownMenuSeparator />
               <DropdownMenuItem><Link href="/tours">Tours</Link></DropdownMenuItem>
               <DropdownMenuItem><Link href="/locations">Locations</Link></DropdownMenuItem>
-              <DropdownMenuItem><Link href="/">Categories</Link></DropdownMenuItem>
+              <DropdownMenuItem><Link href="/categories">Categories</Link></DropdownMenuItem>
           </DropdownMenuContent>
       </DropdownMenu>
   )
