@@ -137,6 +137,8 @@ model Location {
 
   tours Tour[]
 
+  image Images?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -161,8 +163,11 @@ model Images {
   name     String
   isActive Boolean
 
-  tour   Tour   @relation(fields: [tourId], references: [id])
-  tourId String
+  tour   Tour?   @relation(fields: [tourId], references: [id])
+  tourId String?
+
+  location Location? @relation(fields: [locationId], references: [id])
+  locationId String? @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
