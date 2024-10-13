@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { OutlineButton } from '../OutlineButton';
 import { ArrowRight } from 'lucide-react';
 import { getCategories } from '@/db/category/category';
+import { Card, CardContent } from '@/components/ui/card';
 
 // const categories = [
 // 	{
@@ -36,16 +37,20 @@ import { getCategories } from '@/db/category/category';
 // ];
 
 export default async function CategoriesSection() {
-	const categories = await getCategories()
+	const categories = await getCategories();
 	return (
 		<section className='p-4 flex flex-col bg-orange-300'>
 			<div className='flex justify-around items-center'>
 				{categories.map((category) => (
 					<Link key={category.id} href={`/categories/${category.id}`}>
-						<CategoryCard
-							title={category.name}
-							icon={<FaBus size={40} className='mt-1' />}
-						/>
+						<Card className='bg-orange-300 border-none mt-1'>
+							<CardContent className='flex flex-col justify-center items-center'>
+								<span className='font-bold items-center '>
+									{category.name}
+								</span>
+								<FaBus size={40} className='mt-1' />
+							</CardContent>
+						</Card>
 					</Link>
 				))}
 			</div>
