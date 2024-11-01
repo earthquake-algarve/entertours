@@ -1,3 +1,4 @@
+import { isValid, parseISO } from 'date-fns';
 import z from 'zod'
 
 export const emailSchema = z.object({
@@ -27,6 +28,7 @@ export const registerCompanySchema = z.object({
 });
 
 
+const timeRegex = new RegExp('/^(?:[01]d|2[0-3]):[0-5]d$/');
 
 export const tourSchema = z.object({
 	name: z
@@ -37,6 +39,13 @@ export const tourSchema = z.object({
 		.string()
 		.min(3, { message: 'The location must be at least 3 characters' }),
 	price: z.coerce.number().int().min(1),
+	calendarDateFrom: z.string().refine((date) => isValid(parseISO(date)), {
+		message: 'A valid start date is required',
+	}),
+	calendarDateTo: z.string().refine((date) => isValid(parseISO(date)), {
+		message: 'A valid end date is required',
+	}),
+	startTime: z.string(),
 	duration: z.coerce.number().int().min(1),
 	description: z
 		.string()
@@ -47,8 +56,4 @@ export const tourSchema = z.object({
 	image: z
 		.instanceof(File, { message: 'Required' })
 		.refine((file) => file.size === 0 || file.type.startsWith('image/')),
-
-	// images: z
-	// 	.any()
-	// 	.refine((files) => files?.length !== 0, 'Image is required.'),
 });
