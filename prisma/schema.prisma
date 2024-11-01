@@ -115,6 +115,8 @@ model Tour {
 
   images Images[]
 
+  tourAvailability TourAvailability[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -168,6 +170,19 @@ model Images {
 
   location Location? @relation(fields: [locationId], references: [id])
   locationId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TourAvailability {
+  id String @id @default(uuid())
+  startDate DateTime
+  endDate DateTime
+  startTime DateTime @db.Time()
+
+  tourId String
+  tour Tour @relation(fields: [tourId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
