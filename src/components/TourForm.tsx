@@ -13,13 +13,13 @@ import { useFormState, useFormStatus } from 'react-dom';
 import { useEffect, useState } from 'react';
 import { Tour } from '@prisma/client';
 import { Label } from './ui/label';
-import {
-	addTour,
-	updateTour,
-} from '@/app/company/_actions/tours';
+import { Calendar } from '@/components/ui/calendar';
+import * as React from 'react';
+import { addTour, updateTour } from '@/app/company/_actions/tours';
 import { formatCurrency } from '@/lib/formatters';
 import Image from 'next/image';
-
+import { DateRange } from 'react-day-picker';
+import { addDays } from 'date-fns';
 
 export default function TourForm({ tour }: { tour?: Tour | null }) {
 	const [error, action] = useFormState(
@@ -35,15 +35,19 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 	const [categories, setCategories] = useState([]);
 	const [locations, setLocations] = useState([]);
 	const [files, setFiles] = useState([]);
+	const [date, setDate] = React.useState<DateRange | undefined>({
+		from: new Date(),
+		to: addDays(new Date(), 20),
+	});
+	const [startTime, setStartTime] = React.useState<String | undefined>();
 
 	const formData = new FormData();
 
 	for (let i = 0; i < files.length; i++) {
 		formData.append('image', files[i]);
 	}
-	
-	useEffect( () => {
-		
+
+	useEffect(() => {
 		async function getAllCategories() {
 			try {
 				const response = await fetch('/api/categories');
@@ -68,8 +72,7 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 
 		getAllCategories();
 		getAllLocations();
-	},[])
-
+	}, []);
 
 	return (
 		<form action={action} className='space-y-8 w-96 p-4 flex flex-col'>
@@ -115,6 +118,52 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 				/>
 				{error?.description && (
 					<div className='text-destructive'>{error.description}</div>
+				)}
+			</div>
+			<div className='space-y-2'>
+				<Label htmlFor='calendarDates'>Select dates</Label>
+				<Calendar
+					id='calendarDates'
+					initialFocus
+					mode='range'
+					defaultMonth={date?.from}
+					selected={date}
+					onSelect={setDate}
+					numberOfMonths={1}
+					disabled={{ before: new Date() }}
+				/>
+				<Input
+					name='calendarDateFrom'
+					type='hidden'
+					value={date?.from?.toISOString()}
+				/>
+				<Input
+					name='calendarDateTo'
+					type='hidden'
+					value={date?.to?.toISOString()}
+				/>
+				{error?.calendarDateFrom && (
+					<div className='text-destructive'>
+						{error.calendarDateFrom}
+					</div>
+				)}
+				{error?.calendarDateTo && (
+					<div className='text-destructive'>
+						{error.calendarDateTo}
+					</div>
+				)}
+			</div>
+			<div className='space-y-2'>
+				<Label htmlFor='startTime'>Start time</Label>
+				<Input
+					id='startTime'
+					name='startTime'
+					type='time'
+					required
+					onChange={(e) => {setStartTime(e.target.value)}}
+				/>
+				{error?.startTime && (
+					<div className='text-destructive'>{error.startTime}</div>
 				)}
 			</div>
 			<div className='space-y-2'>
@@ -182,7 +231,9 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 					name='image'
 					required={tour == null}
 					multiple
-					onChange={(e) => {setFiles(e.target.files)}}
+					onChange={(e) => {
+						setFiles(e.target.files);
+					}}
 				/>
 				{tour != null && (
 					<Image
@@ -205,7 +256,7 @@ function SubmitButton() {
 	const { pending } = useFormStatus();
 
 	return (
-		<BrandButton type='submit' disabled={pending} >
+		<BrandButton type='submit' disabled={pending}>
 			{pending ? 'Saving...' : 'Create tour'}
 		</BrandButton>
 	);
