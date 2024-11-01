@@ -29,6 +29,19 @@ export async function createTour(formData: FormData, imagePaths: string[]) {
 			include: { images: true },
 		});
 
+		const convertedStartTime = new Date(
+			`${formData.calendarDateFrom.split('T')[0]}T${formData.startTime}:00Z`,
+		);
+
+		await db.tourAvailability.create({
+			data: {
+				startDate: formData.calendarDateFrom,
+				endDate: formData.calendarDateTo,
+				startTime: convertedStartTime,
+				tourId: tour.id,
+			},
+		});
+
 		console.log('Tour created successfully!');
 		return tour;
 	} catch (error) {
