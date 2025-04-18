@@ -20,6 +20,8 @@ import { formatCurrency, timeFormatter } from '@/lib/formatters';
 import Image from 'next/image';
 import { DateRange } from 'react-day-picker';
 
+import { Loader2 } from 'lucide-react';
+
 type TourWithRelations = Prisma.TourGetPayload<{
 	include: {
 		category: true;
@@ -43,14 +45,19 @@ export default function TourForm({
 		tour?.price,
 	);
 
-	const [categories, setCategories] = useState([]);
-	const [locations, setLocations] = useState([]);
-	const [files, setFiles] = useState([]);
+	const [categories, setCategories] = useState<
+		{ id: string; name: string }[]
+	>([]);
+	const [locations, setLocations] = useState<{ id: string; name: string }[]>(
+		[],
+	);
+	const [files, setFiles] = useState<(File | null)[]>([]);
 	const [date, setDate] = React.useState<DateRange | undefined>({
 		from: tour?.tourAvailability[0].startDate,
 		to: tour?.tourAvailability[0].endDate,
 	});
 	const [startTime, setStartTime] = React.useState<String | undefined>();
+	const [loadingAPI, setLoadingAPI] = useState(true);
 
 	const formData = new FormData();
 
@@ -58,32 +65,33 @@ export default function TourForm({
 		formData.append('image', files[i]);
 	}
 
+	
 	useEffect(() => {
-		async function getAllCategories() {
+		async function fetchData() {
 			try {
-				const response = await fetch('/api/categories');
-				const data = await response.json();
-				setCategories(data);
+				setLoadingAPI(true);
+				const [categoriesData, locationsData] = await Promise.all([
+					fetch('/api/categories').then((res) => res.json()),
+					fetch('/api/locations').then((res) => res.json()),
+				]);
+				setCategories(categoriesData);
+				setLocations(locationsData);
 			} catch (error) {
-				console.error('Failed to fetch categories:', error);
+				console.error('Failed to fetch data:', error);
 				setCategories([]);
-			}
-		}
-
-		async function getAllLocations() {
-			try {
-				const response = await fetch('/api/locations');
-				const data = await response.json();
-				setLocations(data);
-			} catch (error) {
-				console.error('Failed to fetch locations:', error);
 				setLocations([]);
+			} finally {
+				setLoadingAPI(false);
 			}
 		}
-
-		getAllCategories();
-		getAllLocations();
+		fetchData();
 	}, []);
+
+	if (loadingAPI) {
+		return <div className='p-48 flex justify-center items-center'>
+			<Loader2 className='size-24 animate-spin' />
+		</div>;
+	}
 
 	return (
 		<form action={action} className='space-y-8 w-96 p-4 flex flex-col'>
@@ -252,7 +260,7 @@ export default function TourForm({
 					required={tour == null}
 					multiple
 					onChange={(e) => {
-						setFiles(e.target.files);
+						setFiles(e.target.files ? Array.from(e.target.files) : []);
 					}}
 				/>
 				{tour != null && (
@@ -260,7 +268,7 @@ export default function TourForm({
 						src={tour.images[0].name}
 						height='400'
 						width='400'
-						alt='Product Image'
+						alt={tour?.name || 'Product Image'}
 					/>
 				)}
 				{error?.image && (
@@ -268,7 +276,6 @@ export default function TourForm({
 				)}
 			</div>
 			<SubmitButton />
-			{}
 		</form>
 	);
 }
