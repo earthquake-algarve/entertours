@@ -1,18 +1,18 @@
 'use server';
 
-import { tourSchema } from '@/app/validation/schema';
+import { editTourSchema, tourSchema } from '@/app/validation/schema';
 import { getCategories } from '@/db/category/category';
-import { createTour } from '@/db/tour/tour';
+import { createTour, getTourById, updateTour } from '@/db/tour/tour';
 import fs from 'fs/promises';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
-export async function fetchCategories(){
+export async function fetchCategories() {
 	const categories = await getCategories();
 	return categories;
 }
 
-export async function addTour(prevState: unknown, formData : FormData) {
+export async function addTour(prevState: unknown, formData: FormData) {
 	const result = tourSchema.safeParse(Object.fromEntries(formData.entries()));
 
 	console.log(result);
@@ -43,14 +43,13 @@ export async function addTour(prevState: unknown, formData : FormData) {
 
 	// await fs.writeFile(
 	// 	`public${imagePath}`,
-	// 	Buffer.from(await data.image.arrayBuffer()) 
+	// 	Buffer.from(await data.image.arrayBuffer())
 	// );
 
-	if ((await createTour({ ...data }, imagePaths)) == null){
-		return null
-	} 
-	
-		
+	if ((await createTour({ ...data }, imagePaths)) == null) {
+		return null;
+	}
+
 	revalidatePath('/');
 	revalidatePath('/tours');
 	revalidatePath('/company/tours');
@@ -58,4 +57,64 @@ export async function addTour(prevState: unknown, formData : FormData) {
 	redirect('/company/tours');
 }
 
-export async function updateTour(id: string, prevState: unknown, formData: FormData) {}
+//update this action
+export async function editTour(
+	id: string,
+	prevState: unknown,
+	formData: FormData,
+) {
+	console.log(Object.fromEntries(formData.entries()));
+	const result = editTourSchema.safeParse(
+		Object.fromEntries(formData.entries()),
+	);
+
+	if (!result.success) {
+		console.log(result.error.flatten());
+		return result.error.formErrors.fieldErrors;
+	}
+
+	const data = result.data;
+
+	const tour = await getTourById(id);
+
+	if (tour == null) return notFound();
+
+	//Consider deleting/editing images in another function in the future
+	//Right now, don't allow to delete/edit images
+	// const imagePaths: string[] = [];
+	// const files = formData.getAll('image') as File[];
+
+	// for (const file of files) {
+	// 	const imagePath = `/tour/${data.name}/${file.name}`;
+	// 	await fs.mkdir(`public/tour/${data.name}`, { recursive: true });
+	// 	await fs.writeFile(
+	// 		`public${imagePath}`,
+	// 		Buffer.from(await file.arrayBuffer()),
+	// 	);
+	// 	imagePaths.push(imagePath);
+	// }
+
+	//just retrieving the images already stored
+	const imagePaths: string[] = [];
+
+	tour.images.forEach((image) => {
+		imagePaths.push(image.name);
+	});
+
+	if (
+		(await updateTour(
+			tour.id,
+			tour.tourAvailability[0].id,
+			{ ...data },
+			imagePaths,
+		)) == null
+	) {
+		return null;
+	}
+
+	revalidatePath('/');
+	revalidatePath('/tours');
+	revalidatePath('/company/tours');
+
+	redirect('/company/tours');
+}

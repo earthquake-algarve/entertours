@@ -1,5 +1,5 @@
 import { isValid, parseISO } from 'date-fns';
-import z from 'zod'
+import z, { optional } from 'zod'
 
 export const emailSchema = z.object({
     email: z.string().email({
@@ -28,8 +28,6 @@ export const registerCompanySchema = z.object({
 });
 
 
-const timeRegex = new RegExp('/^(?:[01]d|2[0-3]):[0-5]d$/');
-
 export const tourSchema = z.object({
 	name: z
 		.string()
@@ -56,4 +54,11 @@ export const tourSchema = z.object({
 	image: z
 		.instanceof(File, { message: 'Required' })
 		.refine((file) => file.size === 0 || file.type.startsWith('image/')),
+});
+
+export const editTourSchema = tourSchema.extend({
+	image: z
+		.instanceof(File, { message: 'Required' })
+		.refine((file) => file.size === 0 || file.type.startsWith('image/'))
+		.optional()
 });

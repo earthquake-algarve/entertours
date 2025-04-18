@@ -3,6 +3,7 @@
 import getSession from '@/lib/session/session';
 import db from '../db';
 import { getCompanyByUserId } from '../company/company';
+import { Prisma } from '@prisma/client';
 
 export async function createTour(formData: FormData, imagePaths: string[]) {
 	const session = await getSession();
@@ -30,7 +31,9 @@ export async function createTour(formData: FormData, imagePaths: string[]) {
 		});
 
 		const convertedStartTime = new Date(
-			`${formData.calendarDateFrom.split('T')[0]}T${formData.startTime}:00Z`,
+			`${formData.calendarDateFrom.split('T')[0]}T${
+				formData.startTime
+			}:00Z`,
 		);
 
 		await db.tourAvailability.create({
@@ -50,6 +53,66 @@ export async function createTour(formData: FormData, imagePaths: string[]) {
 	}
 }
 
+export async function updateTour(
+	tourId: string,
+	tourAvailabilityId: string,
+	formData: FormData,
+	imagePaths: string[],
+) {
+	const session = await getSession();
+	const company = await getCompanyByUserId(session?.user.id);
+
+	try {
+		const tour = await db.tour.update({
+			where: {
+				id: tourId,
+			},
+			data: {
+				name: formData.name,
+				locationId: formData.location,
+				price: formData.price,
+				duration: formData.duration,
+				description: formData.description,
+				categoryId: formData.category,
+				images: {
+					deleteMany:{},
+					create: imagePaths.map((imagePath) => ({
+						name: imagePath,
+						isActive: true,
+					})),
+				},
+				isActive: true,
+				companyId: company?.id,
+			},
+			include: { images: true },
+		});
+
+		const convertedStartTime = new Date(
+			`${formData.calendarDateFrom.split('T')[0]}T${
+				formData.startTime
+			}:00Z`,
+		);
+
+		await db.tourAvailability.update({
+			where: {
+				id: tourAvailabilityId,
+			},
+			data: {
+				startDate: formData.calendarDateFrom,
+				endDate: formData.calendarDateTo,
+				startTime: convertedStartTime,
+				tourId: tour.id,
+			},
+		});
+
+		console.log('Tour edited successfully!');
+		return tour;
+	} catch (error) {
+		console.error('Error editing tour:', error);
+		return null;
+	}
+}
+
 export async function getTours() {
 	const tours = await db.tour.findMany({
 		orderBy: { createdAt: 'desc' },
@@ -60,12 +123,24 @@ export async function getTours() {
 }
 
 export async function getTourById(id: string) {
-	const tour = await db.tour.findUnique({
+	const tour = (await db.tour.findUnique({
 		where: {
 			id: id,
 		},
-		include: { location: true , images: true },
-	});
+		include: {
+			category: true,
+			location: true,
+			tourAvailability: true,
+			images: true,
+		},
+	})) as Prisma.TourGetPayload<{
+		include: {
+			category: true;
+			location: true;
+			tourAvailability: true;
+			images: true;
+		};
+	}>;
 
 	return tour;
 }
@@ -89,6 +164,7 @@ export async function getToursByCompanyId(companyId: string | undefined) {
 		include: {
 			category: true,
 			location: true,
+			tourAvailability: true,
 			images: true,
 		},
 		orderBy: { createdAt: 'desc' },
@@ -102,7 +178,7 @@ export async function getAllToursByLocationId(locationId: string | undefined) {
 		where: {
 			locationId: locationId,
 		},
-		include: { location: true , images: true },
+		include: { location: true, images: true },
 		orderBy: { createdAt: 'desc' },
 	});
 

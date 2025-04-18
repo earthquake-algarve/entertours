@@ -15,10 +15,13 @@ import { getToursByCompanyId } from '@/db/tour/tour';
 import { getCompanyByUserId } from '@/db/company/company';
 import getSession from '@/lib/session/session';
 import React from 'react';
+import { Edit } from 'lucide-react';
 
+
+//add pagination to this page
 export default async function CompanyTours() {
-	const session = await getSession()
-	const company = await getCompanyByUserId(session?.user.id)
+	const session = await getSession();
+	const company = await getCompanyByUserId(session?.user.id);
 	const tours = await getToursByCompanyId(company?.id);
 
 	return (
@@ -42,22 +45,25 @@ export default async function CompanyTours() {
 							<Table className=''>
 								<TableHeader>
 									<TableRow>
-										<TableHead>Id</TableHead>
+										{/* <TableHead>Id</TableHead> */}
 										<TableHead>Name</TableHead>
 										<TableHead>Price</TableHead>
 										<TableHead>Duration</TableHead>
 										<TableHead>Description</TableHead>
 										<TableHead>Location</TableHead>
 										<TableHead>Category</TableHead>
+										<TableHead>Start Date</TableHead>
+										<TableHead>End Date</TableHead>
 										<TableHead>Image</TableHead>
+										<TableHead></TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
 									{tours.flat().map((tour) => (
 										<TableRow key={tour.id}>
-											<TableCell className='font-medium'>
+											{/* <TableCell className='font-medium'>
 												{tour.id}
-											</TableCell>
+											</TableCell> */}
 											<TableCell className='font-medium'>
 												{tour.name}
 											</TableCell>
@@ -77,6 +83,30 @@ export default async function CompanyTours() {
 												{tour.category.name}
 											</TableCell>
 											<TableCell className='font-medium'>
+												{tour.tourAvailability.map(
+													(availability) => (
+														<p
+															key={
+																availability.id
+															}>
+															{availability.startDate.toLocaleDateString()}
+														</p>
+													),
+												)}
+											</TableCell>
+											<TableCell className='font-medium'>
+												{tour.tourAvailability.map(
+													(availability) => (
+														<p
+															key={
+																availability.id
+															}>
+															{availability.endDate.toLocaleDateString()}
+														</p>
+													),
+												)}
+											</TableCell>
+											<TableCell className='font-medium'>
 												<Image
 													alt='tour image'
 													src={tour.images[0].name}
@@ -84,6 +114,12 @@ export default async function CompanyTours() {
 													height={44}
 												/>
 												{}
+											</TableCell>
+											<TableCell className='font-medium'>
+												<Link
+													href={`/company/tours/${tour.id}/edit`}>
+													<Edit/>
+												</Link>
 											</TableCell>
 										</TableRow>
 									))}

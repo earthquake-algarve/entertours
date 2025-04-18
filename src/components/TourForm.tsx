@@ -11,23 +11,34 @@ import {
 import { BrandButton } from './BrandButton';
 import { useFormState, useFormStatus } from 'react-dom';
 import { useEffect, useState } from 'react';
-import { Tour } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { Label } from './ui/label';
 import { Calendar } from '@/components/ui/calendar';
 import * as React from 'react';
-import { addTour, updateTour } from '@/app/company/_actions/tours';
-import { formatCurrency } from '@/lib/formatters';
+import { addTour, editTour } from '@/app/company/_actions/tours';
+import { formatCurrency, timeFormatter } from '@/lib/formatters';
 import Image from 'next/image';
 import { DateRange } from 'react-day-picker';
-import { addDays } from 'date-fns';
 
-export default function TourForm({ tour }: { tour?: Tour | null }) {
+type TourWithRelations = Prisma.TourGetPayload<{
+	include: {
+		category: true;
+		location: true;
+		tourAvailability: true;
+		images: true;
+	};
+}>;
+
+export default function TourForm({
+	tour,
+}: {
+	tour?: TourWithRelations | null;
+}) {
 	const [error, action] = useFormState(
-		// tour == null ? addTour : updateTour.bind(null, tour.id),
-		// {}
-		addTour,
+		tour == null ? addTour : editTour.bind(null, tour.id),
 		{},
 	);
+
 	const [priceInCents, setPriceInCents] = useState<number | undefined>(
 		tour?.price,
 	);
@@ -36,8 +47,8 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 	const [locations, setLocations] = useState([]);
 	const [files, setFiles] = useState([]);
 	const [date, setDate] = React.useState<DateRange | undefined>({
-		from: new Date(),
-		to: addDays(new Date(), 20),
+		from: tour?.tourAvailability[0].startDate,
+		to: tour?.tourAvailability[0].endDate,
 	});
 	const [startTime, setStartTime] = React.useState<String | undefined>();
 
@@ -96,7 +107,7 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 					id='price'
 					name='price'
 					required
-					value={priceInCents}
+					defaultValue={priceInCents}
 					onChange={(e) =>
 						setPriceInCents(Number(e.target.value) || undefined)
 					}
@@ -114,7 +125,7 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 					id='description'
 					name='description'
 					required
-					value={tour?.description}
+					defaultValue={tour?.description}
 				/>
 				{error?.description && (
 					<div className='text-destructive'>{error.description}</div>
@@ -122,25 +133,29 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 			</div>
 			<div className='space-y-2'>
 				<Label htmlFor='calendarDates'>Select dates</Label>
-				<Calendar
-					id='calendarDates'
-					initialFocus
-					mode='range'
-					defaultMonth={date?.from}
-					selected={date}
-					onSelect={setDate}
-					numberOfMonths={1}
-					disabled={{ before: new Date() }}
-				/>
+
+				<div className='flex items-center justify-center'>
+					<Calendar
+						id='calendarDates'
+						initialFocus
+						mode='range'
+						defaultMonth={date?.from}
+						selected={date}
+						onSelect={setDate}
+						numberOfMonths={1}
+						disabled={{ before: new Date() }}
+					/>
+				</div>
+
 				<Input
 					name='calendarDateFrom'
 					type='hidden'
-					value={date?.from?.toISOString()}
+					defaultValue={date?.from?.toISOString()}
 				/>
 				<Input
 					name='calendarDateTo'
 					type='hidden'
-					value={date?.to?.toISOString()}
+					defaultValue={date?.to?.toISOString()}
 				/>
 				{error?.calendarDateFrom && (
 					<div className='text-destructive'>
@@ -160,7 +175,12 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 					name='startTime'
 					type='time'
 					required
-					onChange={(e) => {setStartTime(e.target.value)}}
+					defaultValue={timeFormatter(
+						tour?.tourAvailability[0].startTime,
+					)}
+					onChange={(e) => {
+						setStartTime(e.target.value);
+					}}
 				/>
 				{error?.startTime && (
 					<div className='text-destructive'>{error.startTime}</div>
@@ -172,7 +192,7 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 					id='duration'
 					name='duration'
 					required
-					value={tour?.duration}
+					defaultValue={tour?.duration}
 				/>
 				{error?.duration && (
 					<div className='text-destructive'>{error.duration}</div>
@@ -237,7 +257,7 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 				/>
 				{tour != null && (
 					<Image
-						src={tour.imagePath}
+						src={tour.images[0].name}
 						height='400'
 						width='400'
 						alt='Product Image'
@@ -248,6 +268,7 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 				)}
 			</div>
 			<SubmitButton />
+			{}
 		</form>
 	);
 }
@@ -257,7 +278,7 @@ function SubmitButton() {
 
 	return (
 		<BrandButton type='submit' disabled={pending}>
-			{pending ? 'Saving...' : 'Create tour'}
+			{pending ? 'Saving...' : 'Save'}
 		</BrandButton>
 	);
 }
