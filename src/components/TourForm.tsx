@@ -11,65 +11,99 @@ import {
 import { BrandButton } from './BrandButton';
 import { useFormState, useFormStatus } from 'react-dom';
 import { useEffect, useState } from 'react';
-import { Tour } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { Label } from './ui/label';
-import {
-	addTour,
-	updateTour,
-} from '@/app/company/_actions/tours';
-import { formatCurrency } from '@/lib/formatters';
+import { Calendar } from '@/components/ui/calendar';
+import * as React from 'react';
+import { addTour, deleteTourImage, editTour } from '@/app/company/_actions/tours';
+import { formatCurrency, timeFormatter } from '@/lib/formatters';
 import Image from 'next/image';
+import { DateRange } from 'react-day-picker';
+
+import { Loader2 } from 'lucide-react';
+import TourImageCarousel from './TourImageCarousel';
+import { TourWithRelations } from '@/types/tourRelations';
 
 
-export default function TourForm({ tour }: { tour?: Tour | null }) {
+// type TourWithRelations = Prisma.TourGetPayload<{
+// 	include: {
+// 		category: true;
+// 		location: true;
+// 		tourAvailability: true;
+// 		images: true;
+// 	};
+// }>;
+
+export default function TourForm({
+	tour,
+}: {
+	tour?: TourWithRelations | null;
+}) {
 	const [error, action] = useFormState(
-		// tour == null ? addTour : updateTour.bind(null, tour.id),
-		// {}
-		addTour,
+		tour == null ? addTour : editTour.bind(null, tour.id),
 		{},
 	);
+
 	const [priceInCents, setPriceInCents] = useState<number | undefined>(
 		tour?.price,
 	);
 
-	const [categories, setCategories] = useState([]);
-	const [locations, setLocations] = useState([]);
-	const [files, setFiles] = useState([]);
+	const [categories, setCategories] = useState<
+		{ id: string; name: string }[]
+	>([]);
+	const [locations, setLocations] = useState<{ id: string; name: string }[]>(
+		[],
+	);
+	const [files, setFiles] = useState<(File | null)[]>([]);
+	const [date, setDate] = React.useState<DateRange | undefined>({
+		from: tour?.tourAvailability[0].startDate,
+		to: tour?.tourAvailability[0].endDate,
+	});
+	const [startTime, setStartTime] = React.useState<String | undefined>();
+	const [loadingAPI, setLoadingAPI] = useState(true);
+
+	const [existingImages, setExistingImages] = useState(tour?.images || []);
 
 	const formData = new FormData();
 
 	for (let i = 0; i < files.length; i++) {
 		formData.append('image', files[i]);
 	}
-	
-	useEffect( () => {
-		
-		async function getAllCategories() {
+
+	useEffect(() => {
+		async function fetchData() {
 			try {
-				const response = await fetch('/api/categories');
-				const data = await response.json();
-				setCategories(data);
+				setLoadingAPI(true);
+				const [categoriesData, locationsData] = await Promise.all([
+					fetch('/api/categories').then((res) => res.json()),
+					fetch('/api/locations').then((res) => res.json()),
+				]);
+				setCategories(categoriesData);
+				setLocations(locationsData);
 			} catch (error) {
-				console.error('Failed to fetch categories:', error);
+				console.error('Failed to fetch data:', error);
 				setCategories([]);
-			}
-		}
-
-		async function getAllLocations() {
-			try {
-				const response = await fetch('/api/locations');
-				const data = await response.json();
-				setLocations(data);
-			} catch (error) {
-				console.error('Failed to fetch locations:', error);
 				setLocations([]);
+			} finally {
+				setLoadingAPI(false);
 			}
 		}
+		fetchData();
+	}, []);
 
-		getAllCategories();
-		getAllLocations();
-	},[])
+	if (loadingAPI) {
+		return (
+			<div className='p-48 flex justify-center items-center'>
+				<Loader2 className='size-24 animate-spin' />
+			</div>
+		);
+	}
 
+	const handleRemoveImage = async (imageId: string) => {
+		await deleteTourImage(tour.id, imageId);
+
+	
+	};
 
 	return (
 		<form action={action} className='space-y-8 w-96 p-4 flex flex-col'>
@@ -93,7 +127,7 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 					id='price'
 					name='price'
 					required
-					value={priceInCents}
+					defaultValue={priceInCents}
 					onChange={(e) =>
 						setPriceInCents(Number(e.target.value) || undefined)
 					}
@@ -111,10 +145,65 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 					id='description'
 					name='description'
 					required
-					value={tour?.description}
+					defaultValue={tour?.description}
 				/>
 				{error?.description && (
 					<div className='text-destructive'>{error.description}</div>
+				)}
+			</div>
+			<div className='space-y-2'>
+				<Label htmlFor='calendarDates'>Select dates</Label>
+
+				<div className='flex items-center justify-center'>
+					<Calendar
+						id='calendarDates'
+						initialFocus
+						mode='range'
+						defaultMonth={date?.from}
+						selected={date}
+						onSelect={setDate}
+						numberOfMonths={1}
+						disabled={{ before: new Date() }}
+					/>
+				</div>
+
+				<Input
+					name='calendarDateFrom'
+					type='hidden'
+					defaultValue={date?.from?.toISOString()}
+				/>
+				<Input
+					name='calendarDateTo'
+					type='hidden'
+					defaultValue={date?.to?.toISOString()}
+				/>
+				{error?.calendarDateFrom && (
+					<div className='text-destructive'>
+						{error.calendarDateFrom}
+					</div>
+				)}
+				{error?.calendarDateTo && (
+					<div className='text-destructive'>
+						{error.calendarDateTo}
+					</div>
+				)}
+			</div>
+			<div className='space-y-2'>
+				<Label htmlFor='startTime'>Start time</Label>
+				<Input
+					id='startTime'
+					name='startTime'
+					type='time'
+					required
+					defaultValue={timeFormatter(
+						tour?.tourAvailability[0].startTime,
+					)}
+					onChange={(e) => {
+						setStartTime(e.target.value);
+					}}
+				/>
+				{error?.startTime && (
+					<div className='text-destructive'>{error.startTime}</div>
 				)}
 			</div>
 			<div className='space-y-2'>
@@ -123,7 +212,7 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 					id='duration'
 					name='duration'
 					required
-					value={tour?.duration}
+					defaultValue={tour?.duration}
 				/>
 				{error?.duration && (
 					<div className='text-destructive'>{error.duration}</div>
@@ -174,7 +263,7 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 					<div className='text-destructive'>{error.category}</div>
 				)}
 			</div>
-			<div className='space-y-2'>
+			<div className='space-y-2 '>
 				<Label htmlFor='image'>Image</Label>
 				<Input
 					type='file'
@@ -182,14 +271,17 @@ export default function TourForm({ tour }: { tour?: Tour | null }) {
 					name='image'
 					required={tour == null}
 					multiple
-					onChange={(e) => {setFiles(e.target.files)}}
+					onChange={(e) => {
+						setFiles(
+							e.target.files ? Array.from(e.target.files) : [],
+						);
+					}}
 				/>
 				{tour != null && (
-					<Image
-						src={tour.imagePath}
-						height='400'
-						width='400'
-						alt='Product Image'
+					<TourImageCarousel
+						tourImages={tour.images}
+						name={tour.name}
+						onRemoveImage={handleRemoveImage}
 					/>
 				)}
 				{error?.image && (
@@ -205,8 +297,8 @@ function SubmitButton() {
 	const { pending } = useFormStatus();
 
 	return (
-		<BrandButton type='submit' disabled={pending} >
-			{pending ? 'Saving...' : 'Create tour'}
+		<BrandButton type='submit' disabled={pending}>
+			{pending ? 'Saving...' : 'Save'}
 		</BrandButton>
 	);
 }

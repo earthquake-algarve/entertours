@@ -1,10 +1,49 @@
 import { PageHeader } from '@/components/PageHeader';
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from '@/components/ui/table';
+import { getUsers } from '@/db/user/user';
 
-
-export default function UsersManagement() {
+export default async function UsersManagement() {
+	const users = await getUsers();
 	return (
 		<>
-			<PageHeader>Company tours</PageHeader>
+			<div className='container p-16'>
+				<PageHeader>All users</PageHeader>
+				<Table>
+					<TableHeader>
+						<TableRow>
+							<TableHead>Name</TableHead>
+							<TableHead>Email</TableHead>
+							<TableHead>Is Active</TableHead>
+							<TableHead>Role</TableHead>
+							<TableHead>Has Company</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{users.map((user) => {
+							return (
+								<TableRow key={user.id}>
+									<TableCell>{user.name}</TableCell>
+									<TableCell>{user.email}</TableCell>
+									<TableCell>
+										{user.isActive ? 'True' : 'False'}
+									</TableCell>
+									<TableCell>{user.role}</TableCell>
+									<TableCell>
+										{user.hasCompany ? 'True' : 'False'}
+									</TableCell>
+								</TableRow>
+							);
+						})}
+					</TableBody>
+				</Table>
+			</div>
 		</>
 	);
 }

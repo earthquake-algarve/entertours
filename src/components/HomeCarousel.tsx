@@ -34,7 +34,7 @@ export default function HomeCarousel({ tours }: HomeCarouselProps) {
 				{tours.map((tour) => (
 					<CarouselItem
 						key={tour.id}
-						className='md:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/5 3xl:basis-1/6'>
+						className='md:basis-1/2 lg:basis-1/3 xl:basis-1/4 2xl:basis-1/4'>
 						<Link
 							className='flex items-center justify-center'
 							href={`/tours/${tour.id}`}>
