@@ -15,21 +15,24 @@ import { Prisma } from '@prisma/client';
 import { Label } from './ui/label';
 import { Calendar } from '@/components/ui/calendar';
 import * as React from 'react';
-import { addTour, editTour } from '@/app/company/_actions/tours';
+import { addTour, deleteTourImage, editTour } from '@/app/company/_actions/tours';
 import { formatCurrency, timeFormatter } from '@/lib/formatters';
 import Image from 'next/image';
 import { DateRange } from 'react-day-picker';
 
 import { Loader2 } from 'lucide-react';
+import TourImageCarousel from './TourImageCarousel';
+import { TourWithRelations } from '@/types/tourRelations';
 
-type TourWithRelations = Prisma.TourGetPayload<{
-	include: {
-		category: true;
-		location: true;
-		tourAvailability: true;
-		images: true;
-	};
-}>;
+
+// type TourWithRelations = Prisma.TourGetPayload<{
+// 	include: {
+// 		category: true;
+// 		location: true;
+// 		tourAvailability: true;
+// 		images: true;
+// 	};
+// }>;
 
 export default function TourForm({
 	tour,
@@ -59,13 +62,14 @@ export default function TourForm({
 	const [startTime, setStartTime] = React.useState<String | undefined>();
 	const [loadingAPI, setLoadingAPI] = useState(true);
 
+	const [existingImages, setExistingImages] = useState(tour?.images || []);
+
 	const formData = new FormData();
 
 	for (let i = 0; i < files.length; i++) {
 		formData.append('image', files[i]);
 	}
 
-	
 	useEffect(() => {
 		async function fetchData() {
 			try {
@@ -88,10 +92,18 @@ export default function TourForm({
 	}, []);
 
 	if (loadingAPI) {
-		return <div className='p-48 flex justify-center items-center'>
-			<Loader2 className='size-24 animate-spin' />
-		</div>;
+		return (
+			<div className='p-48 flex justify-center items-center'>
+				<Loader2 className='size-24 animate-spin' />
+			</div>
+		);
 	}
+
+	const handleRemoveImage = async (imageId: string) => {
+		await deleteTourImage(tour.id, imageId);
+
+	
+	};
 
 	return (
 		<form action={action} className='space-y-8 w-96 p-4 flex flex-col'>
@@ -251,7 +263,7 @@ export default function TourForm({
 					<div className='text-destructive'>{error.category}</div>
 				)}
 			</div>
-			<div className='space-y-2'>
+			<div className='space-y-2 '>
 				<Label htmlFor='image'>Image</Label>
 				<Input
 					type='file'
@@ -260,15 +272,16 @@ export default function TourForm({
 					required={tour == null}
 					multiple
 					onChange={(e) => {
-						setFiles(e.target.files ? Array.from(e.target.files) : []);
+						setFiles(
+							e.target.files ? Array.from(e.target.files) : [],
+						);
 					}}
 				/>
 				{tour != null && (
-					<Image
-						src={tour.images[0].name}
-						height='400'
-						width='400'
-						alt={tour?.name || 'Product Image'}
+					<TourImageCarousel
+						tourImages={tour.images}
+						name={tour.name}
+						onRemoveImage={handleRemoveImage}
 					/>
 				)}
 				{error?.image && (

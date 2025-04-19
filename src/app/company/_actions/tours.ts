@@ -2,7 +2,7 @@
 
 import { editTourSchema, tourSchema } from '@/app/validation/schema';
 import { getCategories } from '@/db/category/category';
-import { createTour, getTourById, updateTour } from '@/db/tour/tour';
+import { createTour, deleteTourImageOnDb, getTourById, updateTour } from '@/db/tour/tour';
 import fs from 'fs/promises';
 import { revalidatePath } from 'next/cache';
 import { notFound, redirect } from 'next/navigation';
@@ -79,27 +79,29 @@ export async function editTour(
 
 	if (tour == null) return notFound();
 
+	
+
 	//Consider deleting/editing images in another function in the future
 	//Right now, don't allow to delete/edit images
-	// const imagePaths: string[] = [];
-	// const files = formData.getAll('image') as File[];
+	const imagePaths: string[] = [];
+	const files = formData.getAll('image') as File[];
 
-	// for (const file of files) {
-	// 	const imagePath = `/tour/${data.name}/${file.name}`;
-	// 	await fs.mkdir(`public/tour/${data.name}`, { recursive: true });
-	// 	await fs.writeFile(
-	// 		`public${imagePath}`,
-	// 		Buffer.from(await file.arrayBuffer()),
-	// 	);
-	// 	imagePaths.push(imagePath);
-	// }
+	for (const file of files) {
+		const imagePath = `/tour/${data.name}/${file.name}`;
+		await fs.mkdir(`public/tour/${data.name}`, { recursive: true });
+		await fs.writeFile(
+			`public${imagePath}`,
+			Buffer.from(await file.arrayBuffer()),
+		);
+		imagePaths.push(imagePath);
+	}
 
 	//just retrieving the images already stored
-	const imagePaths: string[] = [];
+	// const imagePaths: string[] = [];
 
-	tour.images.forEach((image) => {
-		imagePaths.push(image.name);
-	});
+	// tour.images.forEach((image) => {
+	// 	imagePaths.push(image.name);
+	// });
 
 	if (
 		(await updateTour(
@@ -117,4 +119,11 @@ export async function editTour(
 	revalidatePath('/company/tours');
 
 	redirect('/company/tours');
+}
+
+export async function deleteTourImage(tourId: string, imageId: string) {
+	await deleteTourImageOnDb(tourId, imageId);
+
+	revalidatePath('/company/tours');
+	revalidatePath('/company/tours/' + tourId);
 }

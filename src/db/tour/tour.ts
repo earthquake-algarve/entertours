@@ -184,3 +184,22 @@ export async function getAllToursByLocationId(locationId: string | undefined) {
 
 	return tours;
 }
+
+export async function deleteTourImageOnDb(tourId: string, imageId: string) {
+	try {
+		const tour = await db.tour.update({
+			where: { id: tourId },
+			data: {
+				images: {
+					delete: { id: imageId },
+				},
+			},
+		});
+
+		console.log('Tour image deleted successfully!');
+		return tour;
+	} catch (error) {
+		console.error('Error deleting tour image:', error);
+		return null;
+	}
+}
