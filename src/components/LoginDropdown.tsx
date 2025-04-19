@@ -1,3 +1,5 @@
+'use client'
+
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,8 +13,10 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import LogoutButton from './LogoutButton';
 
+
 export default function LoginDropdown() {
 	const { data: session } = useSession();
+
 
 	return (
 		<DropdownMenu>

@@ -6,8 +6,26 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ComponentProps, ReactNode } from "react"
 import SearchBar from "@/components/ToursSearchBar";
-import LoginDropdown from "@/components/LoginDropdown";
-import MenuDropdown from "@/components/MenuDropdown";
+import dynamic from 'next/dynamic';
+import { Loader2 } from "lucide-react"
+
+const LoginDropdown = dynamic(() => import('./LoginDropdown'), {
+	ssr: false,
+	loading: () => (
+		<div className='flex items-center justify-center w-8 h-8'>
+			<Loader2 className='h-4 w-4 animate-spin' />
+		</div>
+	),
+});
+
+const MenuDropdown = dynamic(() => import('./MenuDropdown'), {
+	ssr: false,
+	loading: () => (
+		<div className='flex items-center justify-center w-8 h-8'>
+			<Loader2 className='h-4 w-4 animate-spin' />
+		</div>
+	),
+});
 
 export function CustomerNav() {
 	return (

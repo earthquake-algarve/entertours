@@ -13,6 +13,9 @@ export default async function AdminLayout({
 			<SideNav>
 				<NavLink href='/admin'>Dashboard</NavLink>
 				<NavLink href='/admin/users'>Users</NavLink>
+				<NavLink href='/admin/companies'>Companies</NavLink>
+				<NavLink href='/admin/tours'>Tours</NavLink>
+				<NavLink href='/admin/sales'>Sales</NavLink>
 			</SideNav>
 
 			<div className='container my-6'>{children}</div>

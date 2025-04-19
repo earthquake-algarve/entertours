@@ -46,3 +46,9 @@ export async function getCompanyByUserId(userId: string | undefined) {
 	});
 	return company;
 }
+
+export async function getCompanies(){
+	const companies = await db.company.findMany();
+
+	return companies;
+}
