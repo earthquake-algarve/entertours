@@ -15,7 +15,11 @@ import { Prisma } from '@prisma/client';
 import { Label } from './ui/label';
 import { Calendar } from '@/components/ui/calendar';
 import * as React from 'react';
-import { addTour, deleteTourImage, editTour } from '@/app/company/_actions/tours';
+import {
+	addTour,
+	deleteTourImage,
+	editTour,
+} from '@/app/company/_actions/tours';
 import { formatCurrency, timeFormatter } from '@/lib/formatters';
 import Image from 'next/image';
 import { DateRange } from 'react-day-picker';
@@ -23,7 +27,6 @@ import { DateRange } from 'react-day-picker';
 import { Loader2 } from 'lucide-react';
 import TourImageCarousel from './TourImageCarousel';
 import { TourWithRelations } from '@/types/tourRelations';
-
 
 // type TourWithRelations = Prisma.TourGetPayload<{
 // 	include: {
@@ -54,7 +57,7 @@ export default function TourForm({
 	const [locations, setLocations] = useState<{ id: string; name: string }[]>(
 		[],
 	);
-	const [files, setFiles] = useState<(File | null)[]>([]);
+
 	const [date, setDate] = React.useState<DateRange | undefined>({
 		from: tour?.tourAvailability[0].startDate,
 		to: tour?.tourAvailability[0].endDate,
@@ -62,13 +65,21 @@ export default function TourForm({
 	const [startTime, setStartTime] = React.useState<String | undefined>();
 	const [loadingAPI, setLoadingAPI] = useState(true);
 
+	//use this variable to keep the images that are already in the database
+	//and the new images that are uploaded by the user
+	//so, it wont be deleted when the user uploads new images
+	const [files, setFiles] = useState<(File | null)[]>([]);
 	const [existingImages, setExistingImages] = useState(tour?.images || []);
 
-	const formData = new FormData();
+	// const formData = new FormData();
 
-	for (let i = 0; i < files.length; i++) {
-		formData.append('image', files[i]);
-	}
+	// for (let i = 0; i < files.length; i++) {
+	// 	formData.append('image', files[i]);
+	// }
+
+	// existingImages.forEach((img) => {
+	// 	formData.append('existingImages', img.name);
+	// });
 
 	useEffect(() => {
 		async function fetchData() {
@@ -101,8 +112,12 @@ export default function TourForm({
 
 	const handleRemoveImage = async (imageId: string) => {
 		await deleteTourImage(tour.id, imageId);
+		setExistingImages((prev) => prev.filter((img) => img.id !== imageId));
+	};
 
-	
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const files = e.target.files ? Array.from(e.target.files) : [];
+		setFiles(files);
 	};
 
 	return (
@@ -271,12 +286,16 @@ export default function TourForm({
 					name='image'
 					required={tour == null}
 					multiple
-					onChange={(e) => {
-						setFiles(
-							e.target.files ? Array.from(e.target.files) : [],
-						);
-					}}
+					onChange={handleFileChange}
 				/>
+				{existingImages.map((img) => (
+					<Input
+						key={img.id}
+						type='hidden'
+						name='existingImages'
+						value={img.name}
+					/>
+				))}
 				{tour != null && (
 					<TourImageCarousel
 						tourImages={tour.images}

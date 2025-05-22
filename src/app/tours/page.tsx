@@ -17,7 +17,7 @@ export default async function AllTours() {
 			</PageHeader>
 
 			<Suspense fallback={<p>Loading all tours</p>}>
-				<div className='grid grid-cols-1 gap-6 place-items-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5'>
+				<div className='grid grid-cols-1 gap-6 place-items-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
 				{/* <div className='flex justify-center items-center gap-6 flex-wrap'> */}
 					{tours.map((tour) => {
 						return (

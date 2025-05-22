@@ -63,6 +63,23 @@ export async function updateTour(
 	const company = await getCompanyByUserId(session?.user.id);
 
 	try {
+		// First, get the current images
+		const currentTour = await db.tour.findUnique({
+			where: { id: tourId },
+			include: { images: true },
+		});
+
+		// Create a map of existing image paths
+		const existingImagePaths = new Set(
+			currentTour?.images.map((img) => img.name) || [],
+		);
+
+		// Find new images to add
+		const newImagePaths = imagePaths.filter(
+			(path) => !existingImagePaths.has(path),
+		);
+
+		// Update the tour with the new basic information
 		const tour = await db.tour.update({
 			where: {
 				id: tourId,
@@ -74,9 +91,9 @@ export async function updateTour(
 				duration: formData.duration,
 				description: formData.description,
 				categoryId: formData.category,
+				// Only create new images, don't touch existing ones
 				images: {
-					deleteMany:{},
-					create: imagePaths.map((imagePath) => ({
+					create: newImagePaths.map((imagePath) => ({
 						name: imagePath,
 						isActive: true,
 					})),
@@ -185,19 +202,14 @@ export async function getAllToursByLocationId(locationId: string | undefined) {
 	return tours;
 }
 
-export async function deleteTourImageOnDb(tourId: string, imageId: string) {
+export async function deleteTourImageOnDb(imageId: string) {
 	try {
-		const tour = await db.tour.update({
-			where: { id: tourId },
-			data: {
-				images: {
-					delete: { id: imageId },
-				},
-			},
+		await db.images.delete({
+			where: { id: imageId },
 		});
 
 		console.log('Tour image deleted successfully!');
-		return tour;
+		return true;
 	} catch (error) {
 		console.error('Error deleting tour image:', error);
 		return null;
