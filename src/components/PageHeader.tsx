@@ -14,7 +14,7 @@ export function PageHeader({
 }: PageHeaderProps) {
 	return (
 		<div className='text-3xl mb-8 flex justify-between w-full'>
-			{children}
+			<h1>{children}</h1>
 			{buttonChildren ? (
 				<BrandButton asChild={buttonAsChild}>
 					{buttonChildren}
