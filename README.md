@@ -1,6 +1,6 @@
-#EnterTours
+# EnterTours
 
-EnterTours is a modern tour management platform built with [Next.js](https://nextjs.org/), TypeScript, Prisma, and Tailwind CSS. It allows companies to register, manage tours, and provides an admin dashboard for platform management.
+EnterTours is a modern tour management platform built with Next.js, TypeScript, Prisma, and Tailwind CSS. It allows companies to register, manage tours, and provides an admin dashboard for platform management.
 
 ## Features
 
@@ -58,7 +58,7 @@ Visit [http://localhost:3000](http://localhost:3000) to view the app.
 
 - [`src/app`](src/app) - Next.js app directory (routes, layouts, pages)
 - [`src/components`](src/components) - Reusable UI and form components
-- [`src/db`](src/db) - Database access and actions ([`dbActions.ts`](src/db/dbActions.ts))
+- [`src/db`](src/db) - Database  actions
 - [`prisma`](prisma) - Prisma schema and migrations
 - [`cypress`](cypress) - End-to-end tests
 
