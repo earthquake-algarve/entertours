@@ -1,7 +1,12 @@
-import Image from "next/image";
+import getSession from '@/lib/session/session';
+import Image from 'next/image';
+import Link from 'next/link';
 
-export default function HeroSection() {
-  return (
+export default async function HeroSection() {
+
+	const session = await getSession();
+
+	return (
 		//   <section className="flex">
 		//       <Image
 		//           src="/banner.png"
@@ -27,10 +32,14 @@ export default function HeroSection() {
 				</h3>
 				<div className='flex flex-col sm:flex-row justify-center gap-4 mb-10'>
 					<button className='px-6 py-3 text-lg font-semibold bg-orange-300 rounded-2xl shadow-md hover:bg-orange-400 transition'>
-						Explore Tours
+						<Link href='/tours' className='flex'>
+							Explore tours
+						</Link>
 					</button>
 					<button className='px-6 py-3 text-lg font-semibold  rounded-2xl bg-white transition'>
-						Join as a Company
+						<Link href={session?.user.hasCompany ? `/company/profile` : "/company/register"} className='flex'>
+							Join as a company
+						</Link>
 					</button>
 				</div>
 			</div>
@@ -38,5 +47,5 @@ export default function HeroSection() {
 			{/* Optional: Background Visual */}
 			<div className="absolute inset-0 -z-10 opacity-50 bg-[url('/banner.png')] bg-cover bg-center"></div>
 		</section>
-  );
+	);
 }
