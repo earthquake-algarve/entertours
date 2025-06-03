@@ -33,7 +33,9 @@ export default function LoginDropdown() {
 					</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem asChild>
-						<Link href='/' className='flex'>
+						<Link
+							href={`/user/${session.user.id}`}
+							className='flex'>
 							<User className='mr-2 h-4 w-4' />
 							<p>My profile</p>
 						</Link>
