@@ -24,18 +24,19 @@ export default async function UsersManagement({
 						<TableRow>
 							<TableHead>Name</TableHead>
 							<TableHead>Email</TableHead>
-							{user.hasCompany ? (
-								<TableHead>Company</TableHead>
-							) : (
-								''
-							)}
+
+							<TableHead>Company</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
 						<TableRow>
 							<TableCell>{user.name}</TableCell>
 							<TableCell>{user.email}</TableCell>
-							<TableCell>{user.company?.name}</TableCell>
+							{user.hasCompany ? (
+								<TableCell>{user.company?.name}</TableCell>
+							) : (
+								<TableCell>No company</TableCell>
+							)}
 						</TableRow>
 					</TableBody>
 				</Table>
