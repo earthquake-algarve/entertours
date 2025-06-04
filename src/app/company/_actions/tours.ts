@@ -43,7 +43,7 @@ export async function addTour(prevState: unknown, formData: FormData) {
 		imagePaths.push(imagePath);
 	}
 
-	if ((await createTour({ ...data }, imagePaths)) == null) {
+	if ((await createTour(formData , imagePaths)) == null) {
 		return null;
 	}
 
@@ -139,7 +139,7 @@ export async function editTour(
 		(await updateTour(
 			tour.id,
 			tour.tourAvailability[0].id,
-			{ ...data },
+			formData,
 			allImagePaths,
 		)) == null
 	) {
