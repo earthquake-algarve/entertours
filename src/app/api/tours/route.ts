@@ -5,7 +5,7 @@ export async function GET() {
     const tours = await getTours();
 
     if (tours == null) {
-        return new Response("Tours not found", { status: 404 });
+        return new NextResponse("Tours not found", { status: 404 });
     }
     return NextResponse.json(tours);
 }

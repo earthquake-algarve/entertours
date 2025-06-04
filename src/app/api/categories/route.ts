@@ -6,7 +6,7 @@ export async function GET() {
 	const categories = await getCategories();
 
 	if (categories == null) {
-		return new NextResponse('Categories not found'), { status: 404 };
+		return new NextResponse('Categories not found', { status: 404 });
 	}
 
 	return NextResponse.json(categories);
