@@ -16,7 +16,7 @@ export default async function LocationsSection() {
 							<CardHeader className='flex flex-col justify-center items-center gap-4 '>
 								<CardTitle>
 									<Image
-										src={location.image?.name}
+										src={location.image?.name ?? '/banner.png'}
 										alt='reviews'
 										width={250}
 										height={130}
