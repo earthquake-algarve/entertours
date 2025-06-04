@@ -10,36 +10,41 @@ export async function createTour(formData: FormData, imagePaths: string[]) {
 	const company = await getCompanyByUserId(session?.user.id);
 
 	try {
-		const tour = await db.tour.create({
-			data: {
-				name: formData.name,
-				locationId: formData.location,
-				price: formData.price,
-				duration: formData.duration,
-				description: formData.description,
-				categoryId: formData.category,
-				images: {
-					create: imagePaths.map((imagePath) => ({
-						name: imagePath,
-						isActive: true,
-					})),
-				},
-				isActive: true,
-				companyId: company?.id,
+		const tourData: any = {
+			name: formData.get('name') as string,
+			locationId: formData.get('location') as string,
+			price: Number(formData.get('price')),
+			duration: Number(formData.get('duration')),
+			description: formData.get('description') as string,
+			categoryId: formData.get('category') as string,
+			images: {
+				create: imagePaths.map((imagePath) => ({
+					name: imagePath,
+					isActive: true,
+				})),
 			},
+			isActive: true,
+		};
+
+		if (company?.id) {
+			tourData.companyId = company.id;
+		}
+
+		const tour = await db.tour.create({
+			data: tourData,
 			include: { images: true },
 		});
 
+		const calendarDateFrom = formData.get('calendarDateFrom') as string;
+		const startTime = formData.get('startTime') as string;
 		const convertedStartTime = new Date(
-			`${formData.calendarDateFrom.split('T')[0]}T${
-				formData.startTime
-			}:00Z`,
+			`${calendarDateFrom.split('T')[0]}T${startTime}:00Z`,
 		);
 
 		await db.tourAvailability.create({
 			data: {
-				startDate: formData.calendarDateFrom,
-				endDate: formData.calendarDateTo,
+				startDate: formData.get('calendarDateFrom') as string,
+				endDate: formData.get('calendarDateTo') as string,
 				startTime: convertedStartTime,
 				tourId: tour.id,
 			},
@@ -85,12 +90,12 @@ export async function updateTour(
 				id: tourId,
 			},
 			data: {
-				name: formData.name,
-				locationId: formData.location,
-				price: formData.price,
-				duration: formData.duration,
-				description: formData.description,
-				categoryId: formData.category,
+				name: formData.get('name') as string,
+				locationId: formData.get('location') as string,
+				price: Number(formData.get('price')),
+				duration: Number(formData.get('duration')),
+				description: formData.get('description') as string,
+				categoryId: formData.get('category') as string,
 				// Only create new images, don't touch existing ones
 				images: {
 					create: newImagePaths.map((imagePath) => ({
@@ -104,10 +109,10 @@ export async function updateTour(
 			include: { images: true },
 		});
 
+		const calendarDateFrom = formData.get('calendarDateFrom') as string;
+		const startTime = formData.get('startTime') as string;
 		const convertedStartTime = new Date(
-			`${formData.calendarDateFrom.split('T')[0]}T${
-				formData.startTime
-			}:00Z`,
+			`${calendarDateFrom.split('T')[0]}T${startTime}:00Z`,
 		);
 
 		await db.tourAvailability.update({
@@ -115,8 +120,8 @@ export async function updateTour(
 				id: tourAvailabilityId,
 			},
 			data: {
-				startDate: formData.calendarDateFrom,
-				endDate: formData.calendarDateTo,
+				startDate: formData.get('calendarDateFrom') as string,
+				endDate: formData.get('calendarDateTo') as string,
 				startTime: convertedStartTime,
 				tourId: tour.id,
 			},
