@@ -38,7 +38,7 @@ export async function addTour(prevState: unknown, formData: FormData) {
 		await fs.mkdir(`public/tour/${data.name}`, { recursive: true });
 		await fs.writeFile(
 			`public${imagePath}`,
-			Buffer.from(await file.arrayBuffer()),
+			new Uint8Array(await file.arrayBuffer()),
 		);
 		imagePaths.push(imagePath);
 	}
@@ -116,7 +116,7 @@ export async function editTour(
 					});
 					await fs.writeFile(
 						`public${newImagePath}`,
-						Buffer.from(await file.arrayBuffer()),
+						new Uint8Array(await file.arrayBuffer()),
 					);
 					newImagePaths.push(newImagePath);
 				}
@@ -125,7 +125,7 @@ export async function editTour(
 				await fs.mkdir(`public/tour/${data.name}`, { recursive: true });
 				await fs.writeFile(
 					`public${imagePath}`,
-					Buffer.from(await file.arrayBuffer()),
+					new Uint8Array(await file.arrayBuffer()),
 				);
 				newImagePaths.push(imagePath);
 			}

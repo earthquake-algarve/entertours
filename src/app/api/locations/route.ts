@@ -6,7 +6,10 @@ export async function GET() {
 	const locations = await getLocations();
 
 	if (locations == null) {
-		return new NextResponse('Locations not found', { status: 404 });
+		return NextResponse.json(
+			{ error: 'Locations not found' },
+			{ status: 404 },
+		);
 	}
 
 	return NextResponse.json(locations);
