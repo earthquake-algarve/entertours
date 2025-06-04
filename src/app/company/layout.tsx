@@ -11,12 +11,17 @@ export default async function AdminLayout({
 	return (
 		<aside className='min-h-screen font-sans antialiased overflow-y-hidden overflow-x-hidden flex'>
 			{session?.user.hasCompany ? (
-				<SideNav>
-					<NavLink href='/company/profile'>Company profile</NavLink>
-					<NavLink href='/company/tours'>Tours</NavLink>
-					<NavLink href='/'>Sales</NavLink>
-					<NavLink href='/'>Finance</NavLink>
-				</SideNav>
+				<>
+					<SideNav>
+						<NavLink href='/company/profile'>
+							Company profile
+						</NavLink>
+						<NavLink href='/company/tours'>Tours</NavLink>
+						<NavLink href='/company/sales'>Sales</NavLink>
+						<NavLink href='/company/finance'>Finance</NavLink>
+					</SideNav>
+					<div className='container'>{children}</div>
+				</>
 			) : (
 				<div className='container'>{children}</div>
 			)}
