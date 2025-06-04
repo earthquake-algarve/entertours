@@ -133,7 +133,7 @@ export async function updateTour(
 export async function getTours() {
 	const tours = await db.tour.findMany({
 		orderBy: { createdAt: 'desc' },
-		include: { location: true, images: true },
+		include: { location: true, images: true, category: true, tourAvailability: true },	
 	});
 
 	return tours;

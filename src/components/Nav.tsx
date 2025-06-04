@@ -29,22 +29,27 @@ const MenuDropdown = dynamic(() => import('./MenuDropdown'), {
 
 export function CustomerNav() {
 	return (
-		<nav className="bg-orange-300 flex justify-between items-center px-4 w-full">
+		<nav className='bg-orange-300 flex justify-between items-center px-4 w-full pointer-events-auto'>
 			<div>
-				<Link href="/">
-					<Image src="/logo.png" width={70} height={40} alt='logo' />
+				<Link href='/'>
+					<Image
+						src='/logo.png'
+						width={70}
+						height={40}
+						alt='logo'
+						data-testid='logo-link'
+					/>
 				</Link>
-
 			</div>
 			<div>
 				<SearchBar />
 			</div>
-			<div className="flex space-x-1 mr-1">
+			<div className='flex space-x-1 mr-1'>
 				<LoginDropdown />
 				<MenuDropdown />
 			</div>
 		</nav>
-	)
+	);
 }
 
 export function NavLink(props: Omit<ComponentProps<typeof Link>, 'className'>) {

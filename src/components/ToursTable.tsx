@@ -329,6 +329,15 @@ export function ToursTable({ tours }: ToursTableProps) {
 						Next
 					</Button>
 				</div>
+				<div className='flex items-center space-x-2'>
+					<span className='text-sm'>	
+						Page{' '}
+						<strong>
+							{table.getState().pagination.pageIndex + 1} of{' '}
+							{table.getPageCount()}
+						</strong>
+					</span>	
+					</div>
 			</div>
 		</div>
 	);

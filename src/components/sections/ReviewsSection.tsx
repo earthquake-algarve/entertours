@@ -12,10 +12,10 @@ export default function ReviewsSection() {
                         <CardTitle>
                             <Image src="/banner.png" alt='reviews' width={80} height={50} className="rounded-full"/>
                         </CardTitle>
-                        <CardDescription>Thiago Preto</CardDescription>
+                        <CardDescription>Thomas Shelby</CardDescription>
                     </CardHeader>
                     <CardContent className="flex justify-center items-center text-wrap">
-                        Caralho esse projeto vai ficar muito top, parabens meus pika pelo esforço, voces sao feras!
+                        This is a review text that can be quite long, so it will wrap to the next line if necessary. It should be readable and provide feedback on the service or product.
                     </CardContent>
                     <CardFooter className="flex justify-center items-center">
                         <MdOutlineStarPurple500 color="#FFFF00" size={20} />
@@ -31,10 +31,10 @@ export default function ReviewsSection() {
                         <CardTitle>
                             <Image src="/banner.png" alt='reviews' width={80} height={50} className="rounded-full"/>
                         </CardTitle>
-                        <CardDescription>Thiago Preto</CardDescription>
+                        <CardDescription>James Potter</CardDescription>
                     </CardHeader>
                     <CardContent className="flex justify-center items-center text-wrap">
-                        Caralho esse projeto vai ficar muito top, parabens meus pika pelo esforço, voces sao feras!
+                        This is a review text that can be quite long, so it will wrap to the next line if necessary. It should be readable and provide feedback on the service or product.
                     </CardContent>
                     <CardFooter className="flex justify-center items-center">
                         <MdOutlineStarPurple500 color="#FFFF00" size={20} />
@@ -50,10 +50,10 @@ export default function ReviewsSection() {
                         <CardTitle>
                             <Image src="/banner.png" alt='reviews' width={80} height={50} className="rounded-full"/>
                         </CardTitle>
-                        <CardDescription>Thiago Preto</CardDescription>
+                        <CardDescription>Joel Miller</CardDescription>
                     </CardHeader>
                     <CardContent className="flex justify-center items-center text-wrap">
-                        Caralho esse projeto vai ficar muito top, parabens meus pika pelo esforço, voces sao feras!
+                        This is a review text that can be quite long, so it will wrap to the next line if necessary. It should be readable and provide feedback on the service or product.
                     </CardContent>
                     <CardFooter className="flex justify-center items-center">
                         <MdOutlineStarPurple500 color="#FFFF00" size={20} />

@@ -1,4 +1,4 @@
-import BannerSection from '@/components/sections/BannerSection';
+import HeroSection from '@/components/sections/HeroSection';
 import CategoriesSection from '@/components/sections/CategoriesSection';
 import CarouselSection from '@/components/sections/CarouselSection';
 import ReviewsSection from '@/components/sections/ReviewsSection';
@@ -8,7 +8,7 @@ import React from 'react';
 export default async function Home() {
 	return (
 		<>
-			<BannerSection />
+			<HeroSection />
 			<CategoriesSection />
 			<CarouselSection />
 			<ReviewsSection />

@@ -13,6 +13,7 @@ export const authOptions:NextAuthOptions = {
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID as string,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+			allowDangerousEmailAccountLinking: true, // Enable cross-provider linking
 		}),
 		GithubProvider({
 			clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -29,6 +30,7 @@ export const authOptions:NextAuthOptions = {
 				},
 			},
 			from: process.env.EMAIL_FROM,
+			
 		}),
 		// ...add more providers here
 	],
@@ -53,10 +55,13 @@ export const authOptions:NextAuthOptions = {
 			})
 
 			if (!dbUser) {
-				token.id = user.id
-				return token;
+				if (user && user.id) {
+					token.id = user.id;
+				}
+				return token as any; // Ensure token has id property
 			}
 			return {
+				...token,
 				id: dbUser.id,
 				name: dbUser.name,
 				email: dbUser.email,
@@ -64,7 +69,7 @@ export const authOptions:NextAuthOptions = {
 				role: dbUser.role,
 				hasCompany: dbUser.hasCompany,
 				isActive: dbUser.isActive,
-			};
+			} as any; // Ensure returned object matches JWT interface
 		},
 		async session({ session, token }) {
 			if(token) {
@@ -79,6 +84,8 @@ export const authOptions:NextAuthOptions = {
 			return session;
 		},
 	},
+	// allowDangerousEmailAccountLinking: true ,// Enable cross-provider linking
+
 	session:{
 		strategy: "jwt",
 	},

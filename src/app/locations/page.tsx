@@ -14,7 +14,7 @@ export default async function Locations() {
 				All locations
 			</PageHeader>
 
-			<div className='grid grid-cols-1 gap-6 place-items-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5'>
+			<div className='grid grid-cols-1 gap-6 place-items-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
 				{locations.map((location) => (
 					<Link href={`locations/${location.id}`} key={location.id}>
 						<LocationCard
