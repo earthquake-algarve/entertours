@@ -111,6 +111,7 @@ export default function TourForm({
 	}
 
 	const handleRemoveImage = async (imageId: string) => {
+		if (!tour) return;
 		await deleteTourImage(tour.id, imageId);
 		setExistingImages((prev) => prev.filter((img) => img.id !== imageId));
 	};

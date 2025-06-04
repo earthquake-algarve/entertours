@@ -9,11 +9,11 @@ import {
 } from '@/components/ui/carousel';
 import HomeCard from '@/components/HomeCard';
 import Autoplay from 'embla-carousel-autoplay';
-import { Tour } from '@prisma/client';
 import Link from 'next/link';
+import { TourWithRelations } from '@/types/tourRelations';
 
 type HomeCarouselProps = {
-  tours: Tour[]; 
+  tours: TourWithRelations[]; 
 }
 
 export default function HomeCarousel({ tours }: HomeCarouselProps) {
