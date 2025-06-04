@@ -20,7 +20,7 @@ export default async function Locations() {
 						<LocationCard
 							location={location.name}
 							numberOfTours={location._count.tours}
-							imagePath={location.image?.name}
+							imagePath={location.image?.name ?? ''}
 						/>
 					</Link>
 				))}
