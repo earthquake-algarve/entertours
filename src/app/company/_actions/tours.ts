@@ -82,7 +82,8 @@ export async function editTour(
 
 	// Find images to delete by comparing tour.images with existingImagePaths
 	const imagesToDelete = tour.images.filter(
-		(img) => !existingImagePaths.includes(img.name),
+		(img: { name: string; id: string }) =>
+			!existingImagePaths.includes(img.name),
 	);
 
 	// Delete removed images from public folder

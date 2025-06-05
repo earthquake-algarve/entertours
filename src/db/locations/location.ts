@@ -1,6 +1,6 @@
 'use server';
 
-import db from '../../lib/prisma';
+import {db} from '../../lib/prisma';
 
 export async function getLocations() {
 	const locations = await db.location.findMany({
