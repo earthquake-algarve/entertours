@@ -7,7 +7,7 @@ import { PageHeader } from '@/components/PageHeader';
 type LocationWithTours = {
 	id: string;
 	name: string;
-	image?: { name?: string };
+	image?: { name?: string } | null;
 	_count: { tours: number };
 };
 

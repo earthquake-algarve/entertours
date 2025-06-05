@@ -8,7 +8,7 @@ import { getLocations } from '@/db/locations/location';
 type Location = {
 	id: string;
 	name: string;
-	image?: { name: string };
+	image?: { name: string } | null;
 };
 
 export default async function LocationsSection() {
