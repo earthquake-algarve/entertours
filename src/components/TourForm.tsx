@@ -27,6 +27,7 @@ import { DateRange } from 'react-day-picker';
 import { Loader2 } from 'lucide-react';
 import TourImageCarousel from './TourImageCarousel';
 import { TourWithRelations } from '@/types/tourRelations';
+import { Images } from '@/generated/prisma';
 
 // type TourWithRelations = Prisma.TourGetPayload<{
 // 	include: {
@@ -113,7 +114,9 @@ export default function TourForm({
 	const handleRemoveImage = async (imageId: string) => {
 		if (!tour) return;
 		await deleteTourImage(tour.id, imageId);
-		setExistingImages((prev) => prev.filter((img) => img.id !== imageId));
+		setExistingImages((prev) =>
+			prev.filter((img: Images) => img.id !== imageId),
+		);
 	};
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
