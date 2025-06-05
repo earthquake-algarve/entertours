@@ -2,8 +2,10 @@ import HomeCard from '@/components/HomeCard';
 import { PageHeader } from '@/components/PageHeader';
 import { getLocationById } from '@/db/locations/location';
 import { getAllToursByLocationId } from '@/db/tour/tour';
+import { TourWithRelations } from '@/types/tourRelations';
 import Link from 'next/link';
 import React from 'react';
+
 
 export default async function AllToursFromLocation({
 	params: { id },
@@ -26,7 +28,7 @@ export default async function AllToursFromLocation({
 
 			<div className='grid grid-cols-1 gap-6 place-items-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
 				{toursData.length == 0 && 'No tours founded...'}
-				{toursData.map((tour) => (
+				{toursData.map((tour: TourWithRelations) => (
 					<Link href={`/tours/${tour?.id}`} key={tour?.id}>
 						<HomeCard
 							title={tour?.name}

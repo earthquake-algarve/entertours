@@ -1,7 +1,7 @@
 'use server';
 
 import getSession from '@/lib/session/session';
-import db from '../db';
+import { db } from '../../lib/prisma';
 import { getCompanyByUserId } from '../company/company';
 import { Prisma } from '@prisma/client';
 

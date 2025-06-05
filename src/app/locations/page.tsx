@@ -4,8 +4,15 @@ import { getHowManyToursByLocation } from '@/db/locations/location';
 import Link from 'next/link';
 import { PageHeader } from '@/components/PageHeader';
 
+type LocationWithTours = {
+	id: string;
+	name: string;
+	image?: { name?: string };
+	_count: { tours: number };
+};
+
 export default async function Locations() {
-	const locations = await getHowManyToursByLocation();
+	const locations: LocationWithTours[] = await getHowManyToursByLocation();
 	return (
 		<div className='flex flex-col justify-center items-center p-16 '>
 			<PageHeader
@@ -15,7 +22,7 @@ export default async function Locations() {
 			</PageHeader>
 
 			<div className='grid grid-cols-1 gap-6 place-items-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-				{locations.map((location) => (
+				{locations.map((location: LocationWithTours) => (
 					<Link href={`locations/${location.id}`} key={location.id}>
 						<LocationCard
 							location={location.name}

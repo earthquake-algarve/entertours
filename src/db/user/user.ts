@@ -1,6 +1,6 @@
 'use server'
 
-import db from "../db"
+import { db } from '../../lib/prisma';
 
 export async function getUserById(id: string | undefined) {
     if (!id) {

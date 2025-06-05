@@ -5,12 +5,18 @@ import { Button } from '../ui/button';
 import { ArrowRight } from 'lucide-react';
 import { getLocations } from '@/db/locations/location';
 
+type Location = {
+	id: string;
+	name: string;
+	image?: { name: string };
+};
+
 export default async function LocationsSection() {
-	const locations = await getLocations();
+	const locations: Location[] = await getLocations();
 	return (
 		<section className='p-11 flex flex-col justify-center items-center gap-8'>
 			<div className='grid grid-cols-1 place-items-center gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-				{locations.map((location) => (
+				{locations.map((location: Location) => (
 					<Link href={`/locations/${location.id}`} key={location.id}>
 						<Card className='border-none w-60 flex flex-col justify-center items-center shadow-none'>
 							<CardHeader className='flex flex-col justify-center items-center gap-4 '>
