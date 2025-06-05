@@ -160,7 +160,9 @@ export async function deleteTourImage(tourId: string, imageId: string) {
 	const tour = await getTourById(tourId);
 	if (!tour) return null;
 
-	const imageToDelete = tour.images.find((img) => img.id === imageId);
+	const imageToDelete = tour.images.find(
+		(img: { name: string; id: string }) => img.id === imageId,
+	);
 	if (imageToDelete) {
 		try {
 			// Delete the file from the public folder
