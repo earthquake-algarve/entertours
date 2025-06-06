@@ -1,11 +1,12 @@
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
 import EmailProvider from 'next-auth/providers/email';
-import { PrismaAdapter } from '@auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
+// import { PrismaAdapter } from '@auth/prisma-adapter';
+import { db } from '@/lib/prisma';
 import { NextAuthOptions } from 'next-auth';
+import { PrismaClient, Prisma } from '@/generated/prisma';
+import { DefaultArgs } from '@/generated/prisma/runtime/library';
 
-const prisma = new PrismaClient();
 
 
 export const authOptions:NextAuthOptions = {
@@ -34,7 +35,7 @@ export const authOptions:NextAuthOptions = {
 		}),
 		// ...add more providers here
 	],
-	adapter: PrismaAdapter(prisma) as any,
+	adapter: PrismaAdapter(db),
 	secret: process.env.NEXTAUTH_SECRET,
 	callbacks: {
 		async signIn() {
@@ -48,7 +49,7 @@ export const authOptions:NextAuthOptions = {
 		},
 		async jwt({ token, user }) {
 
-			const dbUser = await prisma.user.findFirst({
+			const dbUser = await db.user.findFirst({
 				where: {
 					email: token.email ?? undefined,
 				}
@@ -96,6 +97,10 @@ export const authOptions:NextAuthOptions = {
 };
 
 export default authOptions;
+
+function PrismaAdapter(db: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>): import("next-auth/adapters").Adapter | undefined {
+	throw new Error('Function not implemented.');
+}
 // export const authOptions= {
 // 	providers: [
 // 		Google,
