@@ -3,7 +3,7 @@
 import getSession from '@/lib/session/session';
 import { db } from '../../lib/prisma';
 import { getCompanyByUserId } from '../company/company';
-import { Prisma } from '@prisma/client';
+import { Tour } from '../../generated/prisma/client';
 
 export async function createTour(formData: FormData, imagePaths: string[]) {
 	const session = await getSession();
@@ -155,14 +155,7 @@ export async function getTourById(id: string) {
 			tourAvailability: true,
 			images: true,
 		},
-	})) as Prisma.TourGetPayload<{
-		include: {
-			category: true;
-			location: true;
-			tourAvailability: true;
-			images: true;
-		};
-	}>;
+	})) as Tour;
 
 	return tour;
 }
