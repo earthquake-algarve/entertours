@@ -2,14 +2,21 @@ import { getCategories } from '@/db/category/category';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-	const categories = await getCategories();
+	try {
+		const categories = await getCategories();
 
-	if (categories == null) {
+		if (!categories) {
+			return NextResponse.json(
+				{ error: 'Categories not found' },
+				{ status: 404 },
+			);
+		}
+		return NextResponse.json(categories);
+	} catch (error) {
+		console.error('Error in /api/categories:', error);
 		return NextResponse.json(
-			{ error: 'Categories not found' },
-			{ status: 404 },
+			{ error: 'Internal Server Error' },
+			{ status: 500 },
 		);
 	}
-
-	return NextResponse.json(categories);
 }
