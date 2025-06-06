@@ -3,7 +3,7 @@
 import getSession from '@/lib/session/session';
 import { db } from '../../lib/prisma';
 import { getCompanyByUserId } from '../company/company';
-import { Tour } from '../../generated/prisma/client';
+import { TourWithRelations } from '@/types/tourRelations';
 
 export async function createTour(formData: FormData, imagePaths: string[]) {
 	const session = await getSession();
@@ -155,7 +155,7 @@ export async function getTourById(id: string) {
 			tourAvailability: true,
 			images: true,
 		},
-	})) as Tour;
+	})) as TourWithRelations;
 
 	return tour;
 }
