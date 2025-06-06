@@ -27,16 +27,9 @@ import { DateRange } from 'react-day-picker';
 import { Loader2 } from 'lucide-react';
 import TourImageCarousel from './TourImageCarousel';
 import { TourWithRelations } from '@/types/tourRelations';
-import { Images } from '@/generated/prisma';
+import { TourImage } from '@/types/tourImage';
 
-// type TourWithRelations = Prisma.TourGetPayload<{
-// 	include: {
-// 		category: true;
-// 		location: true;
-// 		tourAvailability: true;
-// 		images: true;
-// 	};
-// }>;
+
 
 export default function TourForm({
 	tour,
@@ -70,7 +63,7 @@ export default function TourForm({
 	//and the new images that are uploaded by the user
 	//so, it wont be deleted when the user uploads new images
 	const [files, setFiles] = useState<(File | null)[]>([]);
-	const [existingImages, setExistingImages] = useState(tour?.images || []);
+	const [existingImages, setExistingImages] = useState<TourImage[]>(tour?.images || []);
 
 	// const formData = new FormData();
 
@@ -115,7 +108,7 @@ export default function TourForm({
 		if (!tour) return;
 		await deleteTourImage(tour.id, imageId);
 		setExistingImages((prev) =>
-			prev.filter((img: Images) => img.id !== imageId),
+			prev.filter((img) => img.id !== imageId),
 		);
 	};
 
