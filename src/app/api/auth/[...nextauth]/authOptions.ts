@@ -1,13 +1,9 @@
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
 import EmailProvider from 'next-auth/providers/email';
-// import { PrismaAdapter } from '@auth/prisma-adapter';
+import { PrismaAdapter } from '@auth/prisma-adapter';
 import { db } from '@/lib/prisma';
 import { NextAuthOptions } from 'next-auth';
-import { PrismaClient, Prisma } from '@/generated/prisma';
-import { DefaultArgs } from '@/generated/prisma/runtime/library';
-
-
 
 export const authOptions:NextAuthOptions = {
 	providers: [
@@ -35,7 +31,7 @@ export const authOptions:NextAuthOptions = {
 		}),
 		// ...add more providers here
 	],
-	adapter: PrismaAdapter(db),
+	adapter: PrismaAdapter(db as any),
 	secret: process.env.NEXTAUTH_SECRET,
 	callbacks: {
 		async signIn() {
@@ -98,9 +94,6 @@ export const authOptions:NextAuthOptions = {
 
 export default authOptions;
 
-function PrismaAdapter(db: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>): import("next-auth/adapters").Adapter | undefined {
-	throw new Error('Function not implemented.');
-}
 // export const authOptions= {
 // 	providers: [
 // 		Google,
