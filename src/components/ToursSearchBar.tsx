@@ -18,7 +18,7 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover';
 import Link from 'next/link';
-import { Tour } from '@prisma/client';
+import { Tour } from '@/generated/prisma';
 
 
 export default function ToursSearchBar() {
