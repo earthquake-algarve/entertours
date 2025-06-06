@@ -39,6 +39,7 @@ import { formatCurrency, timeFormatter } from '@/lib/formatters';
 import Image from 'next/image';
 import Link from 'next/link';
 import { TourWithRelations } from '@/types/tourRelations';
+import { TourAvailability } from '@/generated/prisma';
 
 export const columns: ColumnDef<TourWithRelations>[] = [
 	{
@@ -110,7 +111,7 @@ export const columns: ColumnDef<TourWithRelations>[] = [
 		header: 'Start Date',
 		cell: ({ row }) => (
 			<div>
-				{row.original.tourAvailability?.map((availability) => (
+				{row.original.tourAvailability?.map((availability: TourAvailability) => (
 					<p key={availability.id}>
 						{timeFormatter(new Date(availability.startDate))}
 					</p>
@@ -123,7 +124,7 @@ export const columns: ColumnDef<TourWithRelations>[] = [
 		header: 'End Date',
 		cell: ({ row }) => (
 			<div>
-				{row.original.tourAvailability?.map((availability) => (
+				{row.original.tourAvailability?.map((availability: TourAvailability) => (
 					<p key={availability.id}>
 						{timeFormatter(new Date(availability.endDate))}
 					</p>
