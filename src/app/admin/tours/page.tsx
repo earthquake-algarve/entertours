@@ -6,6 +6,14 @@ import { ToursTable } from '@/components/ToursTable';
 export default async function AdminToursPage() {
 
 	const tours = await getTours();
+	if (!tours || tours.length === 0) {
+		return (
+			<div className='p-16'>
+				<PageHeader>No tours found</PageHeader>
+				
+			</div>
+		);
+	}
 
 	return (
 		<>

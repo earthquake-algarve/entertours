@@ -141,7 +141,7 @@ export async function getTours() {
 		include: { location: true, images: true, category: true, tourAvailability: true },	
 	});
 
-	return tours;
+	return tours ?? [];
 }
 
 export async function getTourById(id: string) {
@@ -168,7 +168,7 @@ export async function getAllToursByCategoryId(categoryId: string) {
 			images: true,
 		},
 	});
-	return tours;
+	return tours ?? [];
 }
 
 export async function getToursByCompanyId(companyId: string | undefined) {
@@ -185,7 +185,7 @@ export async function getToursByCompanyId(companyId: string | undefined) {
 		orderBy: { createdAt: 'desc' },
 	});
 
-	return tours;
+	return tours ?? [];
 }
 
 export async function getAllToursByLocationId(locationId: string | undefined) {
@@ -197,7 +197,7 @@ export async function getAllToursByLocationId(locationId: string | undefined) {
 		orderBy: { createdAt: 'desc' },
 	});
 
-	return tours;
+	return tours ?? [];
 }
 
 export async function deleteTourImageOnDb(imageId: string) {

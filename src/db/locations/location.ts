@@ -12,7 +12,7 @@ export async function getLocations() {
 		},
 	});
 
-	return locations;
+	return locations ?? [];
 }
 
 export async function getLocationById(id: string) {
@@ -35,5 +35,5 @@ export async function getHowManyToursByLocation() {
 			isActive: true,
 		},
 	});
-	return locations;
+	return locations ?? [];
 }

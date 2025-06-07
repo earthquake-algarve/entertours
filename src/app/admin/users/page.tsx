@@ -11,6 +11,13 @@ import { getUsers } from '@/db/user/user';
 
 export default async function UsersManagement() {
 	const users = await getUsers();
+	if (!users || users.length === 0) {
+		return (
+			<div className='container p-16'>
+				<PageHeader>No users found</PageHeader>
+			</div>
+		);
+	}
 	return (
 		<>
 			<div className='container p-16'>

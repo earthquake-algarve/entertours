@@ -10,7 +10,7 @@ import CountrySearchBar from '../CountrySearchBar';
 
 export default function FooterSection() {
 	return (
-		<section className='p-10 bg-orange-300 flex justify-between'>
+		<section className='p-10 bg-orange-300 flex justify-between max-[640px]:flex-col'>
 			<Card className='bg-orange-300 border-none shadow-none flex flex-col'>
 				<CardHeader>
 					<CardTitle>Info</CardTitle>

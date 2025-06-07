@@ -126,6 +126,7 @@ model Category {
   id       String  @id @default(uuid())
   name     String
   isActive Boolean
+  icon     String?
 
   tours Tour[]
 

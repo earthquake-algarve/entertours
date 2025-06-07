@@ -25,6 +25,14 @@ export default async function AllToursFromLocation({
 		getAllToursByLocationId(id),
 		getLocationById(id),
 	]);
+
+	if (!toursData || toursData.length === 0) {
+		return (
+			<div className='container p-16'>
+				<PageHeader>No tours found in this location</PageHeader>
+			</div>
+		);
+	}
 	return (
 		<>
 			<PageHeader

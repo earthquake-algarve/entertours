@@ -1,3 +1,15 @@
 {
-    "console-ninja.captureFunctions": true
+    "console-ninja.captureFunctions": true,
+    "eslint.format.enable": true,
+    "eslint.probe": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "html",
+        "vue",
+        "markdown",
+        "css"
+    ],
+    "eslint.problems.shortenToSingleLine": true
 }

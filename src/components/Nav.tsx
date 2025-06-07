@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { cn } from "@/lib/utils"
-import Image from "next/image"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { ComponentProps, ReactNode } from "react"
-import SearchBar from "@/components/ToursSearchBar";
+import { cn } from '@/lib/utils';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { ComponentProps, ReactNode } from 'react';
+import SearchBar from '@/components/ToursSearchBar';
 import dynamic from 'next/dynamic';
-import { Loader2 } from "lucide-react"
+import { Loader2 } from 'lucide-react';
 
 const LoginDropdown = dynamic(() => import('./LoginDropdown'), {
 	ssr: false,
@@ -41,9 +41,11 @@ export function CustomerNav() {
 					/>
 				</Link>
 			</div>
-			<div>
+
+			<div className='hidden sm:block'>
 				<SearchBar />
 			</div>
+
 			<div className='flex space-x-1 mr-1'>
 				<LoginDropdown />
 				<MenuDropdown />

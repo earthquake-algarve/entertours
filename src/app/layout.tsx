@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
 	title: 'EnterTours',
-	description: '',
+	description: 'Platform for finding, exploring, and managing tours',
 };
 
 export default function RootLayout({
@@ -24,7 +24,9 @@ export default function RootLayout({
 				className={cn(
 					'bg-background min-h-screen font-sans antialiased  overflow-x-hidden',
 					inter.variable,
-				)}>
+					
+				)} 
+				data-cjcrx='addYes'>
 				<Provider>
 					<CustomerNav />
 					<div className=''>{children}</div>

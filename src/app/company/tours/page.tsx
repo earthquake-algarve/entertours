@@ -12,6 +12,20 @@ export default async function CompanyTours() {
 	const company = await getCompanyByUserId(session?.user.id);
 	const tours = await getToursByCompanyId(company?.id);
 
+	if (!tours || tours.length === 0) {
+		return (
+			<div className='p-16'>
+				<PageHeader
+					buttonChildren={
+						<Link href='/company/tours/new'>Add tour</Link>
+					}
+					buttonAsChild={true}>
+					No tours found
+				</PageHeader>
+			</div>
+		);
+	}
+
 	return (
 		<>
 			<div className='p-16 '>

@@ -11,6 +11,13 @@ import { getCompanies } from '@/db/company/company';
 
 export default async function CompaniesProfile() {
 	const companies = await getCompanies();
+	if (!companies || companies.length === 0) {
+		return (
+			<div className='container p-16'>
+				<PageHeader>No companies found</PageHeader>
+			</div>
+		);
+	}
 
 	return (
 		<>

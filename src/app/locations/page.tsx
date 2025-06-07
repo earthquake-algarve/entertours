@@ -13,6 +13,15 @@ type LocationWithTours = {
 
 export default async function Locations() {
 	const locations: LocationWithTours[] = await getHowManyToursByLocation();
+	
+	if (!locations || locations.length === 0) {
+		return (
+			<div className='container p-16'>
+				<PageHeader>No locations found</PageHeader>
+			</div>
+		);
+	}
+
 	return (
 		<div className='flex flex-col justify-center items-center p-16 '>
 			<PageHeader
@@ -27,7 +36,7 @@ export default async function Locations() {
 						<LocationCard
 							location={location.name}
 							numberOfTours={location._count.tours}
-							imagePath={location.image?.name ?? ''}
+							imagePath={location.image?.name ?? '/banner.png'}
 						/>
 					</Link>
 				))}

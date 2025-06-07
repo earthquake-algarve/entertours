@@ -110,7 +110,7 @@ export async function editTour(
 				const fileStats = await fs.stat(`public${imagePath}`);
 				if (fileStats.isFile()) {
 					// File exists, use a different filename to avoid conflicts
-					const newFileName = `${Date.now()}-${file.name}`;
+					const newFileName = `${file.name}`;
 					const newImagePath = `/tour/${data.name}/${newFileName}`;
 					await fs.mkdir(`public/tour/${data.name}`, {
 						recursive: true,

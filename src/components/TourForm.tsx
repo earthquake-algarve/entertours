@@ -36,7 +36,7 @@ export default function TourForm({
 }: {
 	tour?: TourWithRelations | null;
 }) {
-	const [error, action] = useFormState(
+	const [error, action] = React.useActionState(
 		tour == null ? addTour : editTour.bind(null, tour.id),
 		{},
 	);
@@ -53,8 +53,8 @@ export default function TourForm({
 	);
 
 	const [date, setDate] = React.useState<DateRange | undefined>({
-		from: tour?.tourAvailability[0].startDate,
-		to: tour?.tourAvailability[0].endDate,
+		from: tour?.tourAvailability?.[0]?.startDate,
+		to: tour?.tourAvailability?.[0]?.endDate,
 	});
 	const [startTime, setStartTime] = React.useState<String | undefined>();
 	const [loadingAPI, setLoadingAPI] = useState(true);
@@ -65,15 +65,6 @@ export default function TourForm({
 	const [files, setFiles] = useState<(File | null)[]>([]);
 	const [existingImages, setExistingImages] = useState<TourImage[]>(tour?.images || []);
 
-	// const formData = new FormData();
-
-	// for (let i = 0; i < files.length; i++) {
-	// 	formData.append('image', files[i]);
-	// }
-
-	// existingImages.forEach((img) => {
-	// 	formData.append('existingImages', img.name);
-	// });
 
 	useEffect(() => {
 		async function fetchData() {
@@ -83,6 +74,10 @@ export default function TourForm({
 					fetch('/api/categories').then((res) => res.json()),
 					fetch('/api/locations').then((res) => res.json()),
 				]);
+
+				if(!categoriesData || !locationsData) {
+					throw new Error('Failed to fetch categories or locations');
+				}
 				setCategories(categoriesData);
 				setLocations(locationsData);
 			} catch (error) {
@@ -182,12 +177,12 @@ export default function TourForm({
 				<Input
 					name='calendarDateFrom'
 					type='hidden'
-					defaultValue={date?.from?.toISOString()}
+					defaultValue={date?.from?.toISOString()  || ''}
 				/>
 				<Input
 					name='calendarDateTo'
 					type='hidden'
-					defaultValue={date?.to?.toISOString()}
+					defaultValue={date?.to?.toISOString() || ''}
 				/>
 				{error?.calendarDateFrom && (
 					<div className='text-destructive'>
@@ -208,7 +203,7 @@ export default function TourForm({
 					type='time'
 					required
 					defaultValue={timeFormatter(
-						tour?.tourAvailability[0].startTime,
+						tour?.tourAvailability?.[0]?.startTime,
 					)}
 					onChange={(e) => {
 						setStartTime(e.target.value);

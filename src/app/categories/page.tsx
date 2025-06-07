@@ -5,6 +5,14 @@ import CategoryCard from '@/components/CategoryCard';
 
 export default async function Categories() {
 	const categories = await getHowManyToursByCategory()
+	if (!categories || categories.length === 0) {
+		return (
+			<div className='container p-16'>
+				<PageHeader>No categories found</PageHeader>
+			
+			</div>
+		);
+	}
 
 	return (
 		<div className='flex flex-col justify-center items-center p-16 '>

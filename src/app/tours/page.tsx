@@ -7,6 +7,13 @@ import { Suspense } from 'react';
 export default async function AllTours() {
 
 	const tours = await getTours();
+	if (!tours || tours.length === 0) {
+		return (
+			<div className='p-16'>
+				<PageHeader>No tours found</PageHeader>
+			</div>
+		);
+	}
 
 	return (
 		<div className='flex flex-col justify-center items-center p-16 '>

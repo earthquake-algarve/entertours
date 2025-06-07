@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
 	DropdownMenu,
@@ -13,23 +13,27 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import LogoutButton from './LogoutButton';
 
-
 export default function LoginDropdown() {
-	const { data: session } = useSession();
+	const { data: session, status } = useSession();
 
+	// Don't render anything until we know the session status
+	if (status === 'loading') {
+		return (
+			<div className='flex items-center justify-center w-8 h-8'>
+				<User className='animate-pulse' />
+			</div>
+		);
+	}
 
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger>
 				<User />
 			</DropdownMenuTrigger>
-			{session ? (
+			{status === 'authenticated' && session ? (
 				<DropdownMenuContent>
 					<DropdownMenuLabel>
-						Welcome,{' '}
-						{session.user?.name
-							? session.user?.name
-							: session.user?.email}
+						Welcome, {session.user?.name || session.user?.email}
 					</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem asChild>
@@ -40,15 +44,13 @@ export default function LoginDropdown() {
 							<p>My profile</p>
 						</Link>
 					</DropdownMenuItem>
-					{session?.user?.role === 'ADMIN' ? (
+					{session?.user?.role === 'ADMIN' && (
 						<DropdownMenuItem asChild>
 							<Link href='/admin' className='flex'>
 								<ShieldCheck className='mr-2 h-4 w-4' />
 								<p>Admin</p>
 							</Link>
 						</DropdownMenuItem>
-					) : (
-						''
 					)}
 					<DropdownMenuItem asChild>
 						{session?.user?.hasCompany ? (

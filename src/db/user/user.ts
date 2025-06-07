@@ -21,5 +21,5 @@ export async function getUserById(id: string | undefined) {
 export async function getUsers() {
     const users = await db.user.findMany();
 
-    return users;
+    return users ?? [];
 }

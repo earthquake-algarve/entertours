@@ -18,7 +18,14 @@ type HomeCarouselProps = {
 
 export default function HomeCarousel({ tours }: HomeCarouselProps) {
 
-	console.log(tours[1])
+	// console.log(tours[1])
+	if (!tours || tours.length === 0) {
+		return (
+			<div className='flex justify-center items-center p-10'>
+				<p className='text-lg'>No tours available at the moment.</p>
+			</div>
+		);
+	}
 	return (
 		<Carousel
 			opts={{

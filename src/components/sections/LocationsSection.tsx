@@ -12,7 +12,11 @@ type Location = {
 };
 
 export default async function LocationsSection() {
-	const locations: Location[] = await getLocations();
+	const locations: Location[] = (await getLocations()) ?? [];
+	if (!locations || locations.length === 0) {
+		return <p>No locations available at the moment.</p>;
+	}
+	
 	return (
 		<section className='p-11 flex flex-col justify-center items-center gap-8'>
 			<div className='grid grid-cols-1 place-items-center gap-4 sm:grid-cols-2 lg:grid-cols-4'>

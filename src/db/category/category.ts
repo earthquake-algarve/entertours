@@ -9,7 +9,7 @@ export async function getCategories() {
 		},
 	});
 
-	return categories;
+	return categories ?? [];
 }
 
 export async function getCategoryById(id: string) {
@@ -34,5 +34,5 @@ export async function getHowManyToursByCategory() {
 			isActive: true,
 		},
 	});
-	return categories;
+	return categories ?? [];
 }

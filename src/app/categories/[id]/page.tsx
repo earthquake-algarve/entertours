@@ -14,6 +14,13 @@ export default async function AllToursFromCategory({
 		getAllToursByCategoryId(id),
 		getCategoryById(id),
 	]);
+	if (!toursData || toursData.length === 0) {
+		return (
+			<div className='container p-16'>
+				<PageHeader>No tours found in this category</PageHeader>
+			</div>
+		);
+	}
 	return (
 		<>
 			<PageHeader
