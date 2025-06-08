@@ -48,28 +48,9 @@ export default async function CategoriesSection() {
 	return (
 		<section className='p-4 flex flex-col bg-orange-300 '>
 			<div className='flex justify-around items-center'>
-				{/* {categories.map((category) => ( */}
-				{/* <Link key={category.id} href={`/categories/${category.id}`}> */}
-				{/* <Card className='bg-orange-300 border-none mt-1'> */}
-				{/* <CardContent className='flex flex-col justify-center items-center'> */}
-				{/* <span className='font-bold items-center '> */}
-				{/* {category.name} */}
-				{/* </span> */}
-				{/* <FaBus size={40} className='mt-1' /> */}
-				{/* {category.icon} */}
-				{/* </CardContent> */}
-				{/* </Card> */}
-				{/* </Link> */}
-				{/* ))} */}
+
 				<CategoryCarousel categories={categories} />
 			</div>
-			{/* <div className='flex justify-center items-center'>
-				<OutlineButton asChild={true}>
-					<Link href={`/categories/${category.id}`}>
-						All categories <ArrowRight />
-					</Link>
-				</OutlineButton>
-			</div> */}
 		</section>
 	);
 }
