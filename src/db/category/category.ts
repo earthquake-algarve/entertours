@@ -28,6 +28,7 @@ export async function getHowManyToursByCategory() {
 		select: {
 			id: true,
 			name: true,
+			imagePath: true,
 			_count: { select: { tours: true } },
 		},
 		where: {

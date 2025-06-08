@@ -127,6 +127,7 @@ model Category {
   name     String
   isActive Boolean
   icon     String?
+  imagePath String?
 
   tours Tour[]
 

@@ -27,8 +27,8 @@ export default async function Categories() {
 					<Link href={`categories/${category.id}`} key={category.id}>
 						<CategoryCard
 							title={category.name}
-                            imagePath='/boats.jpg'
-                            numberOfTours={category._count.tours}
+							imagePath={category.imagePath ?? 'banner.png'}
+							numberOfTours={category._count.tours}
 						/>
 					</Link>
 				))}

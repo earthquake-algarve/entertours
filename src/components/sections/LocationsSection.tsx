@@ -4,12 +4,14 @@ import Image from 'next/image';
 import { Button } from '../ui/button';
 import { ArrowRight } from 'lucide-react';
 import { getLocations } from '@/db/locations/location';
+import LocationCarousel from '../LocationCarousel';
+import { Location } from '@/generated/prisma';
 
-type Location = {
-	id: string;
-	name: string;
-	image?: { name: string } | null;
-};
+// type Location = {
+// 	id: string;
+// 	name: string;
+// 	image?: { name: string } | null;
+// };
 
 export default async function LocationsSection() {
 	const locations: Location[] = (await getLocations()) ?? [];
@@ -18,9 +20,9 @@ export default async function LocationsSection() {
 	}
 	
 	return (
-		<section className='p-11 flex flex-col justify-center items-center gap-8'>
-			<div className='grid grid-cols-1 place-items-center gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-				{locations.map((location: Location) => (
+		<section className='p-4 flex flex-col items-center '>
+			<div className='flex justify-around items-center'>
+				{/* {locations.map((location: Location) => (
 					<Link href={`/locations/${location.id}`} key={location.id}>
 						<Card className='border-none w-60 flex flex-col justify-center items-center shadow-none'>
 							<CardHeader className='flex flex-col justify-center items-center gap-4 '>
@@ -39,7 +41,8 @@ export default async function LocationsSection() {
 							</CardHeader>
 						</Card>
 					</Link>
-				))}
+				))} */}
+				<LocationCarousel locations={locations} />
 			</div>
 			<Button
 				asChild

@@ -4,7 +4,7 @@ import Image from 'next/image';
 type CategoryCardProps = {
 	title: string;
 	numberOfTours: number;
-	imagePath: string;
+	imagePath?: string;
 };
 
 export default function CategoryCard({
@@ -16,7 +16,7 @@ export default function CategoryCard({
 		<Card className='w-fit border-none shadow-lg rounded-md'>
 			<div className='w-72 h-56'>
 				<Image
-					src={imagePath}
+					src={imagePath ?? 'banner.png'}
 					alt='card image'
 					width={300}
 					height={230}
