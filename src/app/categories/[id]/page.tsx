@@ -6,10 +6,13 @@ import Link from 'next/link';
 import React from 'react';
 
 export default async function AllToursFromCategory({
-	params: { id },
+	params,
 }: {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }) {
+	// Await the params Promise
+	const { id } = await params;
+	
 	const [toursData, categoryData] = await Promise.all([
 		getAllToursByCategoryId(id),
 		getCategoryById(id),

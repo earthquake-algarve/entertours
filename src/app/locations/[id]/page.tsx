@@ -17,10 +17,14 @@ type TourWithLocation = {
 };
 
 export default async function AllToursFromLocation({
-	params: { id },
+	params,
 }: {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }) {
+
+	// Await the params Promise
+	const { id } = await params;
+	
 	const [toursData, locationData] = await Promise.all([
 		getAllToursByLocationId(id),
 		getLocationById(id),

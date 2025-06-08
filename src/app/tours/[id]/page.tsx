@@ -5,10 +5,14 @@ import Link from 'next/link';
 import React from 'react';
 
 export default async function TourDetails({
-	params: { id },
+	params,
 }: {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }) {
+
+	// Await the params Promise
+	const { id } = await params;
+	
 	const tour = await getTourById(id);
 
 	return (

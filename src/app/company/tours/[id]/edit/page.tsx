@@ -4,8 +4,16 @@ import { Card } from '@/components/ui/card';
 import { getTourById } from '@/db/tour/tour';
 import Link from 'next/link';
 
-export default async function EditTour({ params: { id } }: { params: { id: string } }) {
-    const tour = await getTourById(id)
+export default async function EditTour({
+	params ,
+}: {
+	params: Promise<{ id: string }>;
+}) {
+	// Await the params Promise
+	const { id } = await params;
+
+	const tour = await getTourById(id);
+	
 	return (
 		<>
 			<div className='flex flex-col justify-center items-center p-10'>

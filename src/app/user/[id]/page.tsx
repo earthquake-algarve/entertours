@@ -12,9 +12,12 @@ import { getUserById } from '@/db/user/user';
 export default async function UsersManagement({
 	params,
 }: {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }) {
-	const user = await getUserById(params.id);
+	// Await the params Promise
+	const { id } = await params;
+
+	const user = await getUserById(id);
 	return (
 		<>
 			<div className='container p-16'>
