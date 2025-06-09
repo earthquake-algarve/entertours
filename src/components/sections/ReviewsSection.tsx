@@ -41,8 +41,8 @@ export default function ReviewsSection() {
 					</CardFooter>
 				</Card>
 
-				<div className='hidden sm:block'>
-					<Card className='border-none w-60 flex flex-col justify-center items-center'>
+				{/* <div className='hidden sm:flex'> */}
+					<Card className='hidden sm:flex border-none w-60  flex-col justify-center items-center'>
 						<CardHeader className='flex flex-col justify-center items-center'>
 							<CardTitle>
 								<Image
@@ -70,7 +70,7 @@ export default function ReviewsSection() {
 							5.0
 						</CardFooter>
 					</Card>
-					<Card className='border-none w-60 flex flex-col justify-center items-center '>
+					<Card className='hidden sm:flex border-none w-60 flex-col justify-center items-center '>
 						<CardHeader className='flex flex-col justify-center items-center'>
 							<CardTitle>
 								<Image
@@ -98,7 +98,7 @@ export default function ReviewsSection() {
 							5.0
 						</CardFooter>
 					</Card>
-				</div>
+				{/* </div> */}
 			</div>
 		</section>
 	);
