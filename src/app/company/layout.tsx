@@ -1,5 +1,6 @@
-import { NavLink, SideNav } from '@/components/Nav';
+import { NavLink, SideNav, TopNav } from '@/components/Nav';
 import getSession from '@/lib/session/session';
+import { redirect } from 'next/navigation';
 
 export default async function AdminLayout({
 	children,
@@ -8,23 +9,29 @@ export default async function AdminLayout({
 }>) {
 	const session = await getSession();
 
+	if (!session?.user.hasCompany) {
+		redirect('/company/register');
+	}
+
 	return (
-		<aside className='min-h-screen font-sans antialiased overflow-y-hidden overflow-x-hidden flex'>
-			{session?.user.hasCompany ? (
-				<>
-					<SideNav>
-						<NavLink href='/company/profile'>
-							Company profile
-						</NavLink>
-						<NavLink href='/company/tours'>Tours</NavLink>
-						<NavLink href='/company/sales'>Sales</NavLink>
-						<NavLink href='/company/finance'>Finance</NavLink>
-					</SideNav>
-					<div className='container'>{children}</div>
-				</>
-			) : (
-				<div className='container'>{children}</div>
-			)}
-		</aside>
+		<div className='flex flex-col sm:flex-row h-screen'>
+			<aside className='hidden sm:flex  flex-shrink-0 font-sans antialiased overflow-y-hidden overflow-x-hidden'>
+				<SideNav>
+					<NavLink href='/company/profile'>Company profile</NavLink>
+					<NavLink href='/company/tours'>Tours</NavLink>
+					<NavLink href='/company/sales'>Sales</NavLink>
+					<NavLink href='/company/finance'>Finance</NavLink>
+				</SideNav>
+			</aside>
+			<div className='sm:hidden w-full'>
+				<TopNav>
+					<NavLink href='/company/profile'>Company profile</NavLink>
+					<NavLink href='/company/tours'>Tours</NavLink>
+					<NavLink href='/company/sales'>Sales</NavLink>
+					<NavLink href='/company/finance'>Finance</NavLink>
+				</TopNav>
+			</div>
+			<div className='my-6'>{children}</div>
+		</div>
 	);
 }

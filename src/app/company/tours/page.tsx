@@ -41,11 +41,6 @@ export default async function CompanyTours() {
 
 				<ToursTable tours={tours}/>
 
-				<Button
-					className='bg-orange-300 hover:bg-orange-300 text-black mt-8'
-					asChild>
-					<Link href='/'>Back to Home</Link>
-				</Button>
 			</div>
 		</>
 	);

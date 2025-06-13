@@ -23,7 +23,7 @@ export default function AdminCards({
 }: AdminCardProps) {
 	return (
 		<Card
-			className={`w-60 border-none shadow-lg rounded-md ${backgroundColor}`}>
+			className={`w-56 border-none shadow-lg rounded-md ${backgroundColor}`}>
 			<CardHeader>
 				<CardTitle className='text-xl'>{title}</CardTitle>
 			</CardHeader>

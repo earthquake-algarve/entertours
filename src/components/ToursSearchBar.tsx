@@ -32,6 +32,9 @@ export default function ToursSearchBar() {
 				const toursData = await fetch('/api/tours').then((res) =>
 					res.json(),
 				);
+				if(!toursData || !Array.isArray(toursData)) {
+					throw new Error('Invalid tours data format');
+				}
 				setTours(toursData);
 			} catch (error) {
 				console.error('Failed to fetch tours data:', error);
