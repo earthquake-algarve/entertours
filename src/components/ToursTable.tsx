@@ -74,7 +74,7 @@ export const columns: ColumnDef<TourWithRelations>[] = [
 	{
 		accessorKey: 'price',
 		header: 'Price',
-		cell: ({ row }) => <div>{formatCurrency(row.getValue('price'))}</div>,
+		cell: ({ row }) => <div>{formatCurrency((row.getValue('price') as number) / 100)}</div>,
 	},
 	{
 		accessorKey: 'duration',
