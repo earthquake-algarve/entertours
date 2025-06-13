@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function HeroSection() {
-	const session = await getSession();
+	const session = await getSession() ?? null;
 
 	return (
 		<section className='relative  py-20 px-6 text-center'>
