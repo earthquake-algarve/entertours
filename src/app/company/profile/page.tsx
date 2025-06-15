@@ -19,7 +19,7 @@ export default async function CompanyProfile() {
 
 	return (
 		<>
-			<div className='p-16 '>
+			<div className='p-8 sm:p-16'>
 				<PageHeader>Company profile</PageHeader>
 
 				<Card className='mt-8 border-none shadow-lg rounded-md'>
