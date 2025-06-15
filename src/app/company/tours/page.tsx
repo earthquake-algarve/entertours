@@ -28,7 +28,7 @@ export default async function CompanyTours() {
 
 	return (
 		<>
-			<div className='p-16 '>
+			<div className='p-8 sm:p-16 '>
 				<div className='flex justify-between  '>
 					<PageHeader
 						buttonChildren={
@@ -39,8 +39,7 @@ export default async function CompanyTours() {
 					</PageHeader>
 				</div>
 
-				<ToursTable tours={tours}/>
-
+				<ToursTable tours={tours} />
 			</div>
 		</>
 	);

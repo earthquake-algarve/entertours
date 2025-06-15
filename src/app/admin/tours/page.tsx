@@ -17,7 +17,7 @@ export default async function AdminToursPage() {
 
 	return (
 		<>
-			<div className='p-16 '>
+			<div className='p-8 sm:p-16'>
 				<div className='flex justify-between  '>
 					<PageHeader
 						buttonAsChild={true}>

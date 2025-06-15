@@ -21,7 +21,7 @@ export default async function CompaniesProfile() {
 
 	return (
 		<>
-			<div className='container p-16'>
+			<div className='container p-8 sm:p-16'>
 				<PageHeader>All companies</PageHeader>
 				<Table>
 					<TableHeader>
