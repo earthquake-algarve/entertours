@@ -14,7 +14,20 @@ export default async function TourDetails({
 	const { id } = await params;
 	
 	const tour = await getTourById(id);
-
+	if (!tour) {
+		return (
+			<div className='border-2 p-16 flex flex-col justify-center items-center'>
+				<PageHeader
+					buttonAsChild={true}
+					buttonChildren={<Link href='/tours'>Back to all tours</Link>}
+					>
+					Tour not found
+				</PageHeader>
+				<p className='text-lg'>The tour you are looking for does not exist.</p>
+			</div>
+		);
+	}
+	
 	return (
 		<div className='border-2 p-16 flex flex-col justify-center items-center'>
 			<PageHeader
@@ -31,7 +44,7 @@ export default async function TourDetails({
 				duration={tour?.duration}
 				price={tour?.price}
 				description={tour?.description}
-				imagePath={tour?.images[0].name}
+				images={tour?.images}
 			/>
 		</div>
 	);
