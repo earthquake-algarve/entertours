@@ -6,5 +6,6 @@ export type TourWithRelations = Prisma.TourGetPayload<{
 		location: true;
 		tourAvailability: true;
 		images: true;
+		orders: true;
 	};
 }>;

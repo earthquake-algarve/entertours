@@ -28,7 +28,7 @@ type TourDetailsCardProps = {
 	duration: number | undefined;
 	price: number;
 	description: string | undefined;
-	images: TourImage[];
+	images?: TourImage[];
 };
 
 export default function TourDetailsCard({
@@ -42,46 +42,49 @@ export default function TourDetailsCard({
 }: TourDetailsCardProps) {
 	return (
 		<Card className='w-full max-w-5xl mx-auto border-none shadow-2xl rounded-2xl flex flex-col md:flex-row bg-white p-9'>
-			<div className='md:w-2/3 w-full flex items-center justify-center p-4'>
-				<Carousel
-					opts={{
-						align: 'center',
-					}}
-					plugins={[
-						Autoplay({
-							delay: 4000,
-						}),
-					]}
-					className='w-full max-w-2xl'>
-					<CarouselContent>
-						{images?.length > 0 ? (
-							images.map((image) => (
-								<CarouselItem key={image.id}>
-									<div className='flex justify-center items-center h-[350px] md:h-[450px]'>
-										<Image
-											src={image.name}
-											alt={image.name || 'Tour Image'}
-											height={450}
-											width={700}
-											className='rounded-xl object-cover w-full h-full shadow-lg'
-										/>
+			{images && (
+				<div className='md:w-2/3 w-full flex items-center justify-center p-4'>
+					<Carousel
+						opts={{
+							align: 'center',
+						}}
+						plugins={[
+							Autoplay({
+								delay: 4000,
+							}),
+						]}
+						className='w-full max-w-2xl'>
+						<CarouselContent>
+							{images?.length > 0 ? (
+								images.map((image) => (
+									<CarouselItem key={image.id}>
+										<div className='flex justify-center items-center h-[350px] md:h-[450px]'>
+											<Image
+												src={image.name}
+												alt={image.name || 'Tour Image'}
+												height={450}
+												width={700}
+												className='rounded-xl object-cover w-full h-full shadow-lg'
+											/>
+										</div>
+									</CarouselItem>
+								))
+							) : (
+								<CarouselItem>
+									<div className='flex justify-center items-center h-[350px] md:h-[450px] bg-gray-100 rounded-xl'>
+										<span className='text-gray-400'>
+											No images available
+										</span>
 									</div>
 								</CarouselItem>
-							))
-						) : (
-							<CarouselItem>
-								<div className='flex justify-center items-center h-[350px] md:h-[450px] bg-gray-100 rounded-xl'>
-									<span className='text-gray-400'>
-										No images available
-									</span>
-								</div>
-							</CarouselItem>
-						)}
-					</CarouselContent>
-					<CarouselPrevious />
-					<CarouselNext />
-				</Carousel>
-			</div>
+							)}
+						</CarouselContent>
+						<CarouselPrevious />
+						<CarouselNext />
+					</Carousel>
+				</div>
+			)}
+
 			<div className='md:w-1/3 w-full flex flex-col justify-between p-6'>
 				<CardHeader className='pb-2'>
 					<CardTitle className='text-2xl font-bold'>
@@ -119,7 +122,7 @@ export default function TourDetailsCard({
 					<BrandButton>
 						<Link
 							className='w-52 font-bold text-center'
-							href={`/tour/${id}/purchase`}>
+							href={`/tours/${id}/purchase`}>
 							Purchase
 						</Link>
 					</BrandButton>
