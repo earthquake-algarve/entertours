@@ -138,7 +138,7 @@ export async function updateTour(
 export async function getTours() {
 	const tours = await db.tour.findMany({
 		orderBy: { createdAt: 'desc' },
-		include: { location: true, images: true, category: true, tourAvailability: true },	
+		include: { location: true, images: true, category: true, tourAvailability: true, orders: true },	
 	});
 
 	return tours ?? [];
@@ -154,6 +154,7 @@ export async function getTourById(id: string) {
 			location: true,
 			tourAvailability: true,
 			images: true,
+			orders: true, 
 		},
 	})) as TourWithRelations;
 
@@ -181,6 +182,7 @@ export async function getToursByCompanyId(companyId: string | undefined) {
 			location: true,
 			tourAvailability: true,
 			images: true,
+			orders: true,
 		},
 		orderBy: { createdAt: 'desc' },
 	});
