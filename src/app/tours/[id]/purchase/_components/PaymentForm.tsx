@@ -1,19 +1,39 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatCurrency } from "@/lib/formatters";
-import { LinkAuthenticationElement, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { FormEvent, useState } from "react";
-import { userOrderExists } from "../_actions/orders";
+import { Button } from '@/components/ui/button';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
+import { formatCurrency } from '@/lib/formatters';
+import {
+	LinkAuthenticationElement,
+	PaymentElement,
+	useCheckout,
+	useElements,
+	useStripe,
+} from '@stripe/react-stripe-js';
+import { FormEvent, useState } from 'react';
+import { userOrderExists } from '../_actions/orders';
 
-export default function PaymentForm({ price , tourId} : { price: number, tourId: string }) {
-    const stripe = useStripe();
-    const elements = useElements();
-    const [isLoading, setIsLoading] = useState(false);
+export default function PaymentForm({
+	price,
+	tourId,
+
+}: {
+	price: number;
+	tourId: string;
+}) {
+	const stripe = useStripe();
+	const elements = useElements();
+	const [isLoading, setIsLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState<string>();
 	const [email, setEmail] = useState<string>();
 
-    //handle all stripe stuff
-    async function handleSubmit(e: FormEvent) {
+	//handle all stripe stuff
+	async function handleSubmit(e: FormEvent) {
 		e.preventDefault();
 
 		if (stripe == null || elements == null || email == null) return;
@@ -39,8 +59,8 @@ export default function PaymentForm({ price , tourId} : { price: number, tourId:
 			})
 			.then(({ error }) => {
 				if (
-					error.type === 'card_error' ||
-					error.type === 'validation_error'
+					error?.type === 'card_error' ||
+					error?.type === 'validation_error'
 				) {
 					setErrorMessage(error.message);
 				} else {
@@ -50,7 +70,7 @@ export default function PaymentForm({ price , tourId} : { price: number, tourId:
 			.finally(() => setIsLoading(false));
 	}
 
-    return (
+	return (
 		<form onSubmit={handleSubmit}>
 			<Card>
 				<CardHeader>
@@ -64,9 +84,7 @@ export default function PaymentForm({ price , tourId} : { price: number, tourId:
 				<CardContent>
 					<PaymentElement />
 					<div className='mt-4'>
-						<LinkAuthenticationElement
-							onChange={(e) => setEmail(e.value.email)}
-						/>
+						<LinkAuthenticationElement onChange={(e) => setEmail(e.value.email)} />
 					</div>
 				</CardContent>
 				<CardFooter>
@@ -78,9 +96,7 @@ export default function PaymentForm({ price , tourId} : { price: number, tourId:
 						}>
 						{isLoading
 							? 'Purchasing...'
-							: `Purchase - ${formatCurrency(
-									price / 100,
-							  )}`}
+							: `Purchase - ${formatCurrency(price / 100)}`}
 					</Button>
 				</CardFooter>
 			</Card>
