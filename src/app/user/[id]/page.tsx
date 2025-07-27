@@ -1,3 +1,4 @@
+import OrdersTable from '@/components/OrdersTable';
 import { PageHeader } from '@/components/PageHeader';
 import {
 	Table,
@@ -7,7 +8,9 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { getOrdersByUserId } from '@/db/orders/order';
 import { getUserById } from '@/db/user/user';
+import { notFound } from 'next/navigation';
 
 export default async function UsersManagement({
 	params,
@@ -18,6 +21,10 @@ export default async function UsersManagement({
 	const { id } = await params;
 
 	const user = await getUserById(id);
+	if (!user) return notFound();
+
+	const orders = await getOrdersByUserId(id);
+
 	return (
 		<>
 			<div className='container p-16'>
@@ -43,6 +50,11 @@ export default async function UsersManagement({
 						</TableRow>
 					</TableBody>
 				</Table>
+
+				<div className='mt-8'>
+					<PageHeader>My orders</PageHeader>
+					<OrdersTable orders={orders} />
+				</div>
 			</div>
 		</>
 	);

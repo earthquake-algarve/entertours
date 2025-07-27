@@ -3,7 +3,7 @@ import { PaymentElement, useElements, Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentForm from './PaymentForm';
 import Image from 'next/image';
-import { formatCurrency } from '@/lib/formatters';
+import { formatCurrency, formatDate, formatTime } from '@/lib/formatters';
 import { TourWithRelations } from '@/types/tourRelations';
 
 type CheckoutFormProps = {
@@ -40,9 +40,8 @@ export default function CheckoutForm({
 					</div>
 					<div>{tour.location.name}</div>
 					<div>
-						{new Date(
-							tour.tourAvailability[0].startDate,
-						).toLocaleString()}
+						{formatDate(tour.tourAvailability[0].startDate)} at{' '}
+						{formatTime(tour.tourAvailability[0].startTime)}{' '}
 					</div>
 				</div>
 			</div>

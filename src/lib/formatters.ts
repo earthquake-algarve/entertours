@@ -14,11 +14,20 @@ export function formatNumber(number: number) {
 	return NUMBER_FORMATTER.format(number);
 }
 
-const TIME_FORMATTER = new Intl.DateTimeFormat('pt-BR', {
-	timeStyle: 'short',
+const DATE_FORMATTER = new Intl.DateTimeFormat('en-GB', {
 	timeZone: 'UTC',
+	dateStyle: 'short',
 });
 
-export function timeFormatter(time: Date | undefined) {
+export function formatDate(time: Date | undefined) {
+	return DATE_FORMATTER.format(time);
+}
+
+const TIME_FORMATTER = new Intl.DateTimeFormat('en-GB', {
+	timeZone: 'UTC',
+	timeStyle: 'short',
+});
+
+export function formatTime(time: Date | undefined) {
 	return TIME_FORMATTER.format(time);
 }

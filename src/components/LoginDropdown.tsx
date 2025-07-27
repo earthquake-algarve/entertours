@@ -41,7 +41,7 @@ export default function LoginDropdown() {
 							href={`/user/${session.user.id}`}
 							className='flex'>
 							<User className='mr-2 h-4 w-4' />
-							<p>My profile</p>
+							<p>My account</p>
 						</Link>
 					</DropdownMenuItem>
 					{session?.user?.role === 'ADMIN' && (

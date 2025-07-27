@@ -35,7 +35,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { formatCurrency, timeFormatter } from '@/lib/formatters';
+import { formatCurrency, formatDate } from '@/lib/formatters';
 import Image from 'next/image';
 import Link from 'next/link';
 import { TourWithRelations } from '@/types/tourRelations';
@@ -113,7 +113,7 @@ export const columns: ColumnDef<TourWithRelations>[] = [
 			<div>
 				{row.original.tourAvailability?.map((availability: TourAvailability) => (
 					<p key={availability.id}>
-						{timeFormatter(new Date(availability.startDate))}
+						{formatDate(availability.startDate)}
 					</p>
 				))}
 			</div>
@@ -126,7 +126,7 @@ export const columns: ColumnDef<TourWithRelations>[] = [
 			<div>
 				{row.original.tourAvailability?.map((availability: TourAvailability) => (
 					<p key={availability.id}>
-						{timeFormatter(new Date(availability.endDate))}
+						{formatDate(availability.endDate)}
 					</p>
 				))}
 			</div>

@@ -71,10 +71,10 @@ export async function POST(request: NextRequest) {
 
 			try {
 				const emailResponse = await resend.emails.send({
-					from: `Support <${process.env.EMAIL_FROM}>`,
+					from: `Support Entertours<${process.env.EMAIL_FROM}>`,
 					to: email,
 					subject: `Order confirmation for ${tour.name}`,
-					text: `Thank you for purchasing ${tour.name}! Your order has been confirmed. Price: ${formatCurrency(pricePaidInCents / 100)}.`,
+					react: `Thank you for purchasing ${tour.name}! Your order has been confirmed. Price: ${formatCurrency(pricePaidInCents / 100)}.`,
 				});
 				console.log('Email sent successfully:', emailResponse);
 			} catch (error) {

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { getTourById } from '@/db/tour/tour';
-import { formatCurrency } from '@/lib/formatters';
-import { db } from '@/lib/prisma';
+import { formatCurrency, formatDate, formatTime } from '@/lib/formatters';
+import getSession from '@/lib/session/session';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -18,17 +18,17 @@ export default async function SuccessPage({
 	const paymentIntent = await stripe.paymentIntents.retrieve(payment_intent);
 	if (paymentIntent.metadata.tourId == null) return notFound();
 
-	console.log('paymentIntent.metadata.email: ', paymentIntent.metadata.email);
-	if (paymentIntent.metadata.email == null) return notFound();
-
 	const tour = await getTourById(paymentIntent.metadata.tourId);
 
 	if (tour == null) return notFound();
 
+	const session = await getSession();
+	const isUserLoggedIn: boolean = session?.user?.email != null;
+
 	const isSuccess = paymentIntent.status === 'succeeded';
 
 	return (
-		<div className='max-w-5xl w-full mx-auto space-y-8'>
+		<div className='max-w-5xl w-full mx-auto my-4 space-y-8'>
 			<h1 className='text-4xl font-bold'>
 				{isSuccess ? 'Success!' : 'Error!'}
 			</h1>
@@ -49,20 +49,34 @@ export default async function SuccessPage({
 					<div className='line-clamp-3 text-muted-foreground'>
 						{tour.description}
 					</div>
-					{/* <Button className='mt-4' size='lg' asChild>
-						{isSuccess ? (
-							<a
-								href={`/products/download/${await createDownloadVerification(
-									product.id,
-								)}`}>
-								Download
-							</a>
+					<div>{tour.location.name}</div>
+					<div>
+						{formatDate(tour.tourAvailability[0].startDate)} at{' '}
+						{formatTime(tour.tourAvailability[0].startTime)}{' '}
+					</div>
+
+					{isSuccess ? (
+						isUserLoggedIn ? (
+							<Button className='mt-4' size='lg' asChild>
+								<Link href={`/user/orders`}>
+									Go to My Orders
+								</Link>
+							</Button>
 						) : (
-							<Link href={`/products/${product.id}/purchase`}>
+							<div className='mt-4'>
+								We have sent you an email with your order
+								details. Please check your inbox and your spam
+								folder. If you still cannot find it, please
+								contact us.
+							</div>
+						)
+					) : (
+						<Button className='mt-4' size='lg' asChild>
+							<Link href={`/tours/${tour.id}/purchase`}>
 								Try Again
 							</Link>
-						)}
-					</Button> */}
+						</Button>
+					)}
 				</div>
 			</div>
 		</div>

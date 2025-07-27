@@ -20,7 +20,7 @@ import {
 	deleteTourImage,
 	editTour,
 } from '@/app/company/_actions/tours';
-import { formatCurrency, timeFormatter } from '@/lib/formatters';
+import { formatCurrency, formatTime } from '@/lib/formatters';
 import Image from 'next/image';
 import { DateRange } from 'react-day-picker';
 
@@ -202,7 +202,7 @@ export default function TourForm({
 					name='startTime'
 					type='time'
 					required
-					defaultValue={timeFormatter(
+					defaultValue={formatTime(
 						tour?.tourAvailability?.[0]?.startTime,
 					)}
 					onChange={(e) => {

@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 type AdminCardProps = {
 	title: string | undefined;
-	amount: number;
+	amount: number | string;
 	backgroundColor: string | undefined;
 	cardRedirectTo: string;
 };
